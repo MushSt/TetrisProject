@@ -27,16 +27,32 @@ public class TetrisGame {
 	}
 	
 	/*
-	 * starts the game loop until gameover
+	 * starts the game loop until game over, then reset
 	 */
 	public void start() {
 		System.out.println("Starting Game...");
+		boolean gameOver = false;
+		
+		//debug code: 
+			int counts = 0;
+		
+		while(!gameOver) {
+			//generate new shape
+			//TetrisShape newShape = randomShapeGen();
+			++counts;
+
+			if(counts == 30) {
+				gameOver = true;
+			}
+		}
 	}
 	
-	//generates a new random number to make a new shape
+	/* 
+	 * generates a new random number to make a new shape
+	 */
 	private TetrisShape randomShapeGen() {
 		rng = new Random(System.nanoTime());
-		int shapeNum = rng.nextInt() % NUMSHAPES;
+		int shapeNum = rng.nextInt(NUMSHAPES+1);
 		
 		TetrisShape thisShape = new TetrisShape(shapeNum);
 		

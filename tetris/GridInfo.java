@@ -17,20 +17,20 @@ public class GridInfo {
 		height = Tetris.GRID_HEIGHT + TOPBITS;
 		width = Tetris.GRID_WIDTH;
 		grid = new char[width][height];
-		setGrid();
+		resetGrid();
 	}
 	
 	public GridInfo(int w, int h) {
 		height = h + TOPBITS;
 		width = w;
 		grid = new char[width][height];
-		setGrid();
+		resetGrid();
 	}
 	
 	/* sets the grid up to start as empty spaces
 	 * empty spaces are '.'
 	 */
-	private void setGrid() {
+	private void resetGrid() {
 		for(int row = 0; row < height; ++row) {
 			for (int col = 0; col < width; ++col) {
 				grid[row][col] = '.';
@@ -47,6 +47,10 @@ public class GridInfo {
 		return false;
 	}
  	
+	//resets the grid for game over
+	public void gameOver() {
+		resetGrid();
+	}
 	
 	//public getter method
 	public char[][] getGrid() {
