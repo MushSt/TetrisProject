@@ -14,10 +14,7 @@ public class GridInfo {
 	
 	//constructors
 	public GridInfo() {
-		height = Tetris.GRID_HEIGHT + TOPBITS;
-		width = Tetris.GRID_WIDTH;
-		grid = new char[width][height];
-		resetGrid();
+		this(Tetris.GRID_WIDTH, Tetris.GRID_HEIGHT);
 	}
 	
 	public GridInfo(int w, int h) {

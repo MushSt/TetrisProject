@@ -17,24 +17,44 @@ public class TetrisShape {
 	public TetrisShape(int random) {
 		switch(random) {
 			case 0: 
-				myShape = shapeI;
+				myShape = deepCopy(shapeI);
 				break;
 			case 1:
-				myShape = shapeL;
+				myShape = deepCopy(shapeL);
 				break;
 			case 2:
-				myShape = shapeJ;
+				myShape = deepCopy(shapeJ);
+				break;
+			case 3:
+				myShape = deepCopy(shapeT);
+				break;
+			case 4: 
+				myShape = deepCopy(shapeO);
+				break;
+			case 5:
+				myShape = deepCopy(shapeS);
+				break;
+			case 6: 
+				myShape = deepCopy(shapeZ);
+				break;
+			default:
 				break;
 		}
 	}
 	
-	public TetrisShape rotateClock(TetrisShape x) {
+	/*
+	 * rotates this shape clockwise
+	 */
+	public TetrisShape rotateClock() {
 		
 		
 		return null;
 	}
 	
-	public TetrisShape rotateCounter(TetrisShape x) {
+	/*
+	 * rotates this shape counterclockwise
+	 */
+	public TetrisShape rotateCounter() {
 		
 		return null;
 	}

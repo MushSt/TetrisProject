@@ -12,8 +12,7 @@ public class Coordinate {
 	
 	//no argument constructor sets a coord of 0,0
 	public Coordinate() {
-		row = 0;
-		col = 0;
+		this(0,0);
 	}
 	
 	public Coordinate(int x, int y) {

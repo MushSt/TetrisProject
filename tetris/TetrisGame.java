@@ -7,23 +7,18 @@ public class TetrisGame {
 	
 	private int width;
 	private int height;
-	private Random rng;
+
 	
 	//default of 10x20
 	public TetrisGame() {
-		width = Tetris.GRID_WIDTH;
-		height = Tetris.GRID_WIDTH;
-		setup();
+		this(new Coordinate(Tetris.GRID_WIDTH, Tetris.GRID_HEIGHT));
 	}
 	
 	public TetrisGame(Coordinate dims) {
 		width = dims.getRow();
 		height = dims.getCol();
-		setup();
-	}
-	
-	private void setup() {
-		
+		//make the game board
+		GridInfo board = new GridInfo(width, height);
 	}
 	
 	/*
@@ -51,12 +46,10 @@ public class TetrisGame {
 	 * generates a new random number to make a new shape
 	 */
 	private TetrisShape randomShapeGen() {
-		rng = new Random(System.nanoTime());
+		Random rng = new Random(System.nanoTime());
 		int shapeNum = rng.nextInt(NUMSHAPES+1);
 		
-		TetrisShape thisShape = new TetrisShape(shapeNum);
-		
-		return thisShape;
+		return new TetrisShape(shapeNum);
 	}
 	
 	
