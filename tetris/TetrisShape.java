@@ -1,7 +1,7 @@
 package tetris;
 
 public class TetrisShape {
-	final Coordinate[] zShape = {new Coordinate(0,0), new Coordinate(0,)};
+	final Coordinate[] zShape = {new Coordinate(0,0), new Coordinate(0,1)};
 	final Coordinate[] sShape = {};
 	final Coordinate[] lineShape = {};
 	final Coordinate[] elShape = {};

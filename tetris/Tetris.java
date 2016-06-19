@@ -13,6 +13,25 @@ public class Tetris {
 	public final static int GRID_WIDTH = 10;
 	public final static int GRID_HEIGHT = 20;
 	
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		
+		System.out.println("Grid Size? (Default is 10x20)");
+		System.out.println("Enter query as widthxheight:");
+		
+		String line = scan.nextLine();
+		
+		TetrisGame newGame = new TetrisGame(validLine(line));
+		newGame.start();
+		
+		
+		scan.close();
+	}
+
+	/*
+	 * takes in the user input and parses it for width/height
+	 * if invalid, defaults to (10x20)
+	 */
 	private static Coordinate validLine(String line) {
 		Coordinate sizes;
 		
@@ -40,20 +59,4 @@ public class Tetris {
 		
 		return sizes;
 	}
-	
-	public static void main(String[] args) {
-		Scanner scan = new Scanner(System.in);
-		
-		System.out.println("Grid Size? (Default is 10x20)");
-		System.out.println("Enter query as widthxheight:");
-		
-		String line = scan.nextLine();
-		
-		//int width =
-		//int height = 
-		TetrisGame newGame = new TetrisGame(validLine(line));
-		
-		scan.close();
-	}
-
 }

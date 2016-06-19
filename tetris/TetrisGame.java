@@ -13,13 +13,24 @@ public class TetrisGame {
 	public TetrisGame() {
 		width = Tetris.GRID_WIDTH;
 		height = Tetris.GRID_WIDTH;
-		//setup();
+		setup();
 	}
 	
 	public TetrisGame(Coordinate dims) {
 		width = dims.getRow();
 		height = dims.getCol();
-		//setup();
+		setup();
+	}
+	
+	private void setup() {
+		
+	}
+	
+	/*
+	 * starts the game loop until gameover
+	 */
+	public void start() {
+		System.out.println("Starting Game...");
 	}
 	
 	//generates a new random number to make a new shape
