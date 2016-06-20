@@ -1,16 +1,23 @@
 package tetris;
 
 public class TetrisShape {
-	final Coordinate[] shapeI = {new Coordinate(0,0), new Coordinate(1,0), new Coordinate(-1,0), new Coordinate(-2,0)};
-	final Coordinate[] shapeL = {new Coordinate(0,0), new Coordinate(0,1), new Coordinate(-1,0), new Coordinate(-2,0)};
-	final Coordinate[] shapeJ = {new Coordinate(0,0), new Coordinate(0,-1), new Coordinate(-1,0), new Coordinate(-2,0)};
-	final Coordinate[] shapeT = {new Coordinate(0,0), new Coordinate(0,1), new Coordinate(0,-1), new Coordinate(-1,0)};
-	final Coordinate[] shapeO = {new Coordinate(0,0), new Coordinate(-1,0), new Coordinate(0,-1), new Coordinate(-1,-1)};
-	final Coordinate[] shapeS = {new Coordinate(0,0), new Coordinate(-1,0), new Coordinate(0,-1), new Coordinate(-1,1)};
-	final Coordinate[] shapeZ = {new Coordinate(0,0), new Coordinate(-1,-1), new Coordinate(-1,0), new Coordinate(0,1)};
+	final private Coordinate[] shapeI = {new Coordinate(0,0), new Coordinate(1,0), 
+											new Coordinate(-1,0), new Coordinate(-2,0)};
+	final private Coordinate[] shapeL = {new Coordinate(0,0), new Coordinate(0,1),
+											new Coordinate(-1,0), new Coordinate(-2,0)};
+	final private Coordinate[] shapeJ = {new Coordinate(0,0), new Coordinate(0,-1),
+											new Coordinate(-1,0), new Coordinate(-2,0)};
+	final private Coordinate[] shapeT = {new Coordinate(0,0), new Coordinate(0,1),
+											new Coordinate(0,-1), new Coordinate(-1,0)};
+	final private Coordinate[] shapeO = {new Coordinate(0,0), new Coordinate(-1,0),
+											new Coordinate(0,-1), new Coordinate(-1,-1)};
+	final private Coordinate[] shapeS = {new Coordinate(0,0), new Coordinate(-1,0),
+											new Coordinate(0,-1), new Coordinate(-1,1)};
+	final private Coordinate[] shapeZ = {new Coordinate(0,0), new Coordinate(-1,-1),
+											new Coordinate(-1,0), new Coordinate(0,1)};
 	
 	
-	Coordinate[] myShape;
+	private Coordinate[] myShape;
 	
 	
 	//default constructor
@@ -57,6 +64,27 @@ public class TetrisShape {
 	public TetrisShape rotateCounter() {
 		
 		return null;
+	}
+	
+	/*
+	 * returns TetrisShape of this shape moved down 1 level
+	 */
+	public TetrisShape down() {
+		
+	}
+	
+	/*
+	 * returns TetrisShape of this shape moved left 1 level
+	 */
+	public TetrisShape left() {
+		
+	}
+	
+	/*
+	 * returns TetrisShape of this shape moved right 1 level
+	 */
+	public TetrisShape right() {
+		
 	}
 	
 	/*

@@ -39,9 +39,61 @@ public class GridInfo {
 	 * shape is 4 coordinates, so checks if these coordinates are taken
 	 */
 	public boolean checkShape(TetrisShape shape) {
+		Coordinate[] shapeCords = shape.getCoordinates();
+		//loop through the coordinates in shape to check validity
+		for(int i = 0; i < shapeCords.length; ++i) {
+			int row = shapeCords[i].getRow();
+			int col = shapeCords[i].getCol();
+			
+			//if it not valid, we can return false 
+			//first check if its in bounds
+			if(row < 0 || row >= height) {
+				return false;
+			}
+			if(col < 0 || col >= width) {
+				return false;
+			}
+			
+			//will use 'X' as taken blocks
+			if(grid[row][col] == 'X') {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/*
+	 * method for placing the shape (falling shape vs set shape)
+	 */
+	public boolean placeFallingShape(Coordinate[] shape) {
+		
+		return false;
+	}
+	
+	/*
+	 * checks if we can set the shape onto the grid
+	 */
+	public boolean canSetShape(TetrisShape shape) {
+		Coordinate[] s = shape.getCoordinates();
+		
+		
 		
 		
 		return false;
+	}
+	
+	/*
+	 * set the shape onto the grid
+	 */
+	public void setShape(TetrisShape shape) {
+		Coordinate[] s = shape.getCoordinates();
+		
+		for(int i = 0; i < s.length; ++i) {
+			int row = s[i].getRow();
+			int col = s[i].getCol();
+			
+			grid[row][col] = 'X';
+		}
 	}
  	
 	//resets the grid for game over
@@ -55,10 +107,26 @@ public class GridInfo {
 	}
 	
 	//prints the grid, but not the top 4 rows
-	public void printGrid() {
+	//prints out the falling block as '*' marks
+	public void printGrid(TetrisShape x) {
+		Coordinate[] shape = x.getCoordinates();
+		boolean falling = false;
+		
 		for(int row = TOPBITS; row < height; ++row) {
 			for(int col = 0; col < width; ++col) {
-				System.out.print(grid[row][col]);
+				Coordinate checker = new Coordinate(row, col);
+				
+				//if falling block piece here, print * instead
+				for(int i = 0; i < shape.length; ++i) {
+					if(checker.equals(shape[i])) {
+						System.out.print('*');
+						falling = true;
+					}
+				}
+				if(falling) {
+					System.out.print(grid[row][col]);
+				}
+				falling = false;
 			}
 			//newline at end of the row
 			System.out.println();

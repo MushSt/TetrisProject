@@ -38,4 +38,16 @@ public class Coordinate {
 		return col;
 	}
 	
+	public boolean equals(Coordinate x) {
+		int xrow = x.getRow();
+		int xcol = x.getCol();
+		
+		if(xrow == row && xcol == col) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 }
