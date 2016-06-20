@@ -17,25 +17,25 @@ public class TetrisShape {
 	public TetrisShape(int random) {
 		switch(random) {
 			case 0: 
-				myShape = deepCopy(shapeI);
+				deepCopy(shapeI);
 				break;
 			case 1:
-				myShape = deepCopy(shapeL);
+				deepCopy(shapeL);
 				break;
 			case 2:
-				myShape = deepCopy(shapeJ);
+				deepCopy(shapeJ);
 				break;
 			case 3:
-				myShape = deepCopy(shapeT);
+				deepCopy(shapeT);
 				break;
 			case 4: 
-				myShape = deepCopy(shapeO);
+				deepCopy(shapeO);
 				break;
 			case 5:
-				myShape = deepCopy(shapeS);
+				deepCopy(shapeS);
 				break;
 			case 6: 
-				myShape = deepCopy(shapeZ);
+				deepCopy(shapeZ);
 				break;
 			default:
 				break;
@@ -59,13 +59,19 @@ public class TetrisShape {
 		return null;
 	}
 	
+	/*
+	 * gets the array of coordinates that defines this shape
+	 */
 	public Coordinate[] getCoordinates() {
-		
 		return myShape;
 	}
 	
-	private Coordinate[] deepCopy(Coordinate[] x) {
-		
-		return null;
+	/*
+	 * makes a deep copy of the shape in question into myShape
+	 */
+	private void deepCopy(Coordinate[] x) {
+		for(int i = 0; i < x.length; ++i) {
+			myShape[i] = x[i];
+		}
 	}
 }
