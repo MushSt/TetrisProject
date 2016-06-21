@@ -17,6 +17,7 @@ public class TetrisGame {
 	public TetrisGame(Coordinate dims) {
 		width = dims.getRow();
 		height = dims.getCol();
+		
 		//make the game board
 		GridInfo board = new GridInfo(width, height);
 	}

@@ -74,9 +74,15 @@ public class GridInfo {
 	 * checks if we can set the shape onto the grid
 	 */
 	public boolean canSetShape(TetrisShape shape) {
+		//base case
+		if(!checkShape(shape)) {
+			return false;
+		}
 		Coordinate[] s = shape.getCoordinates();
 		
-		
+		//conditions for successful set shape:
+			//1. there are blocks directly under (can't place shape.down)
+		Coordinate[] check = shape.down();
 		
 		
 		return false;

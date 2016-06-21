@@ -10,9 +10,11 @@ public class Test {
 		y[1] = 5;
 		
 		//var = "we";
+		Coordinate x = new Coordinate(5,6);
+		
+		System.out.println(x.equals(6));
 		
 		System.out.println(y[1]);
-		System.out.println(x[1]);
 	}
 
 }
