@@ -1,5 +1,7 @@
 package tetris;
 
+import java.util.Random;
+
 public class TetrisShape {
 	//index 0 of each shape is (0,0), which we will use as the center of the shapes
 	final private Coordinate[] shapeI = {new Coordinate(0,0), new Coordinate(1,0), 
@@ -17,54 +19,63 @@ public class TetrisShape {
 	final private Coordinate[] shapeZ = {new Coordinate(0,0), new Coordinate(-1,-1),
 											new Coordinate(-1,0), new Coordinate(0,1)};
 	final public int SHAPE_SIZE = 4;
-	
+	final public int NUMSHAPES = 7;
+	final private int PRINT_OFFSET = 2;
+
 	
 	private Coordinate[] myShape;
 	
 	//null argument constructor does nothing
 	public TetrisShape() {
-		
+		myShape = new Coordinate[SHAPE_SIZE];
 	}
 	
 	//constructor to make a new shape object based on previous one
 	public TetrisShape(Coordinate[] shape) {
+		myShape = new Coordinate[SHAPE_SIZE];
 		deepCopy(shape);
 	}
 	
-	//constructor for making a random shape
-	public TetrisShape(int random) {
-		switch(random) {
-			case 0: 
-				deepCopy(shapeI);
-				break;
-			case 1:
-				deepCopy(shapeL);
-				break;
-			case 2:
-				deepCopy(shapeJ);
-				break;
-			case 3:
-				deepCopy(shapeT);
-				break;
-			case 4: 
-				deepCopy(shapeO);
-				break;
-			case 5:
-				deepCopy(shapeS);
-				break;
-			case 6: 
-				deepCopy(shapeZ);
-				break;
-			default:
-				break;
+	/*
+	 * method to turn TetrisShape into a random shape 
+	 */
+	public void shapeGen() {
+		Random rng = new Random(System.nanoTime());
+		int shapeNum = rng.nextInt(NUMSHAPES+1);
+		
+		switch(shapeNum) {
+		case 0: 
+			deepCopy(shapeI);
+			break;
+		case 1:
+			deepCopy(shapeL);
+			break;
+		case 2:
+			deepCopy(shapeJ);
+			break;
+		case 3:
+			deepCopy(shapeT);
+			break;
+		case 4: 
+			deepCopy(shapeO);
+			break;
+		case 5:
+			deepCopy(shapeS);
+			break;
+		case 6: 
+			deepCopy(shapeZ);
+			break;
+		default:
+			break;
 		}
 	}
+	
 	
 	/*
 	 * rotates this shape clockwise around 0,0
 	 * algorithm for this is row = col, col = -row
 	 */
-	public Coordinate[] rotateClock() {
+	public TetrisShape rotateClock() {
 		Coordinate[] newShape = new Coordinate[SHAPE_SIZE];
 		
 		for(int i = 0; i < myShape.length; ++i) {
@@ -72,7 +83,7 @@ public class TetrisShape {
 			newShape[i] = new Coordinate(myShape[i].getCol(), -myShape[i].getRow());
 		}
 		
-		return newShape;
+		return new TetrisShape(newShape);
 	}
 	
 	/*
@@ -80,7 +91,7 @@ public class TetrisShape {
 	 * algorithm is reverse of clockwise, so 
 	 * row = -col, col = row
 	 */
-	public Coordinate[] rotateCounter() {
+	public TetrisShape rotateCounter() {
 		//algorithm only works for when the origin is centered, so we calculate and save it
 		int rOffset = myShape[0].getRow();
 		int cOffset = myShape[0].getCol();
@@ -94,13 +105,13 @@ public class TetrisShape {
 			newShape[i] = new Coordinate(newRow, newCol);
 		}
 		
-		return newShape;
+		return new TetrisShape(newShape);
 	}
 	
 	/*
 	 * returns TetrisShape of this shape moved down 1 level
 	 */
-	public Coordinate[] down() {
+	public TetrisShape down() {
 		Coordinate[] newShape = new Coordinate[SHAPE_SIZE];
 		
 		for(int i = 0; i < myShape.length; ++i) {
@@ -108,13 +119,13 @@ public class TetrisShape {
 			newShape[i] = new Coordinate(myShape[i].getRow()+1, myShape[i].getCol());
 		}
 		
-		return newShape;
+		return new TetrisShape(newShape);
 	}
 	
 	/*
 	 * returns TetrisShape of this shape moved left 1 level
 	 */
-	public Coordinate[] left() {
+	public TetrisShape left() {
 		Coordinate[] newShape = new Coordinate[SHAPE_SIZE];
 		
 		for(int i = 0; i < myShape.length; ++i) {
@@ -122,13 +133,13 @@ public class TetrisShape {
 			newShape[i] = new Coordinate(myShape[i].getRow(), myShape[i].getCol()-1);
 		}
 		
-		return newShape;
+		return new TetrisShape(newShape);
 	}
 	
 	/*
 	 * returns TetrisShape of this shape moved right 1 level
 	 */
-	public Coordinate[] right() {
+	public TetrisShape right() {
 		Coordinate[] newShape = new Coordinate[SHAPE_SIZE];
 		
 		for(int i = 0; i < myShape.length; ++i) {
@@ -136,7 +147,7 @@ public class TetrisShape {
 			newShape[i] = new Coordinate(myShape[i].getRow(), myShape[i].getCol()+1);
 		}
 		
-		return newShape;
+		return new TetrisShape(newShape);
 	}
 	
 	/*
@@ -156,22 +167,29 @@ public class TetrisShape {
 	}
 	
 	/*
-	 * Prints Shape in a 4x4 box (testing purposes)
+	 * Prints Shape in a 5x5 box (testing purposes)
 	 */
 	public void printShape() {
 		int rOffset = myShape[0].getRow();
 		int cOffset = myShape[0].getCol();
 		
-		char[][] smallGrid = new char[SHAPE_SIZE][SHAPE_SIZE];
-		for(int row = 0; row < SHAPE_SIZE; ++row) {
-			for(int col = 0; col < SHAPE_SIZE; ++col) {
-				
+		char[][] smallGrid = new char[SHAPE_SIZE+1][SHAPE_SIZE+1];
+		for(int row = 0; row <= SHAPE_SIZE; ++row) {
+			for(int col = 0; col <= SHAPE_SIZE; ++col) {
+				smallGrid[row][col] = '.';
 			}
 		}
 		for(int i = 0; i < myShape.length; ++i) {
-			int row = myShape[i].getRow() - rOffset;
-			int col = myShape[i].getCol() - cOffset;
+			int row = myShape[i].getRow() - rOffset + PRINT_OFFSET;
+			int col = myShape[i].getCol() - cOffset + PRINT_OFFSET;
 			smallGrid[row][col] = 'X';
+		}
+		
+		for(int row = 0; row <= SHAPE_SIZE; ++row) {
+			for(int col = 0; col <= SHAPE_SIZE; ++col) {
+				System.out.print(smallGrid[row][col]);
+			}
+			System.out.println();
 		}
 	}
 }

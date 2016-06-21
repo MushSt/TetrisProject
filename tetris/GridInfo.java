@@ -63,28 +63,29 @@ public class GridInfo {
 	}
 	
 	/*
-	 * method for placing the shape (falling shape vs set shape)
-	 */
-	public boolean placeFallingShape(Coordinate[] shape) {
-		
-		return false;
-	}
-	
-	/*
 	 * checks if we can set the shape onto the grid
 	 */
 	public boolean canSetShape(TetrisShape shape) {
 		//base case
 		if(!checkShape(shape)) {
 			return false;
-		}
-		Coordinate[] s = shape.getCoordinates();
-		
+		}		
 		//conditions for successful set shape:
 			//1. there are blocks directly under (can't place shape.down)
-		Coordinate[] check = shape.down();
+		TetrisShape check = shape.down();
+		Coordinate[] set = check.getCoordinates();
 		
-		
+		for(int i = 0; i < set.length; ++i) {
+			int row = set[i].getRow();
+			int col = set[i].getCol();
+			
+			//if there is an X there, means that we can't drop the block 1 level down
+			//in other words, we can set the block at the current location
+			if(grid[row][col] == 'X') {
+				return true;
+			}
+		}
+		//block can be moved down 1 level legally, then we can set it
 		return false;
 	}
 	

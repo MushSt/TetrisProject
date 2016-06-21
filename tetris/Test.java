@@ -5,16 +5,14 @@ public class Test {
 	final static String var = "way";
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int[] y = x;
+		TetrisShape x = new TetrisShape();
 		
-		y[1] = 5;
+		x.shapeGen();
 		
-		//var = "we";
-		Coordinate x = new Coordinate(5,6);
-		
-		System.out.println(x.equals(6));
-		
-		System.out.println(y[1]);
+		x.printShape();
+		System.out.println();
+		x = x.rotateClock();
+		x.printShape();
 	}
 
 }

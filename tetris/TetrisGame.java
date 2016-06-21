@@ -3,7 +3,6 @@ import java.util.Random;
 
 
 public class TetrisGame {
-	final int NUMSHAPES = 7;
 	
 	private int width;
 	private int height;
@@ -42,16 +41,5 @@ public class TetrisGame {
 			}
 		}
 	}
-	
-	/* 
-	 * generates a new random number to make a new shape
-	 */
-	private TetrisShape randomShapeGen() {
-		Random rng = new Random(System.nanoTime());
-		int shapeNum = rng.nextInt(NUMSHAPES+1);
-		
-		return new TetrisShape(shapeNum);
-	}
-	
 	
 }
