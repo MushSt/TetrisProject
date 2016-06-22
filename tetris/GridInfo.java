@@ -72,19 +72,12 @@ public class GridInfo {
 		//conditions for successful set shape:
 			//1. there are blocks directly under (can't place shape.down)
 		TetrisShape check = shape.down();
-		Coordinate[] set = check.getCoordinates();
 		
-		for(int i = 0; i < set.length; ++i) {
-			int row = set[i].getRow();
-			int col = set[i].getCol();
-			
-			//if there is an X there, means that we can't drop the block 1 level down
-			//in other words, we can set the block at the current location
-			if(grid[row][col] == 'X') {
-				return true;
-			}
+		//if 1 level below is invalid, then we can set the shape
+		if(!checkShape(check)) {
+			return true;
 		}
-		//block can be moved down 1 level legally, then we can set it
+		//if 1 level is valid, we cannot set the shape yet
 		return false;
 	}
 	
@@ -110,6 +103,25 @@ public class GridInfo {
 	//public getter method
 	public char[][] getGrid() {
 		return grid;
+	}
+	
+	/*
+	 * drops the shape to the lowest point it can appear
+	 * returns whether it could be dropped (if false, then gameover)
+	 */
+	public boolean dropShape(TetrisShape shape) {
+		//base case, if can't even place the current shape, then game over
+		if(!checkShape(shape)) {
+			return false;
+		}
+		
+		//loop moving down until we can set the shape
+		while(!canSetShape(shape)) {
+			shape = shape.down();
+		}
+		//when we reach a settable location, set the shape and return successful
+		setShape(shape);
+		return true;
 	}
 	
 	//prints the grid, but not the top 4 rows

@@ -1,5 +1,7 @@
 package tetris;
 
+import java.util.Scanner;
+
 public class TetrisGame {
 	
 	private int width;
@@ -25,6 +27,7 @@ public class TetrisGame {
 	 */
 	public void start() {
 		System.out.println("Starting Game...");
+		Scanner scan = new Scanner(System.in);
 		boolean gameOver = false;
 		
 		//outer while loop to generate the shapes
@@ -33,15 +36,18 @@ public class TetrisGame {
 			TetrisShape currShape = generate();
 			currShape.starting(width);
 			
-			//check if the shape can be placed there
-			if(!board.checkShape(currShape)){
-				board.printGrid(currShape);
-				System.out.println(gameOver);
-				gameOver = true;
-			}
-			
 			//2nd while loop for dropping and rotating
 			while(true) {
+				//check if the shape can be placed there
+				if(!board.checkShape(currShape)){
+					board.printGrid(currShape);
+					System.out.println(gameOver);
+					gameOver = true;
+				}
+				//gets the user input
+				String command = scan.next();
+				
+				//
 				
 			}
 		}
