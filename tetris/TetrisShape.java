@@ -151,6 +151,20 @@ public class TetrisShape {
 	}
 	
 	/*
+	 * changes coordinates of the shape to the starting position
+	 * takes as input the dimensions of the board
+	 */
+	public void starting(int width) {
+		//offsets based on dims of the board, should end up top/center
+		int cOffset = width/2;
+		int rOffset = getHeightOffset();
+		
+		for(int i = 0; i < SHAPE_SIZE; ++i) {
+			myShape[i] = new Coordinate(myShape[i].getRow()+rOffset, myShape[i].getCol()+cOffset);
+		}
+	}
+	
+	/*
 	 * gets the array of coordinates that defines this shape
 	 */
 	public Coordinate[] getCoordinates() {
@@ -191,5 +205,22 @@ public class TetrisShape {
 			}
 			System.out.println();
 		}
+	}
+	
+	/*
+	 * helper method for starting point, finds the highest point so we can
+	 * figure out where to put it
+	 * returns the height offset (positive)
+	 */
+	private int getHeightOffset() {
+		int holder = 0;
+		for(int i = 0; i < SHAPE_SIZE; ++i) {
+			int row = myShape[i].getRow();
+			
+			if(row < holder) {
+				holder = row;
+			}
+		}
+		return -holder;
 	}
 }

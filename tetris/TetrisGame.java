@@ -1,11 +1,10 @@
 package tetris;
-import java.util.Random;
-
 
 public class TetrisGame {
 	
 	private int width;
 	private int height;
+	private GridInfo board;
 
 	
 	//default of 10x20
@@ -18,7 +17,7 @@ public class TetrisGame {
 		height = dims.getCol();
 		
 		//make the game board
-		GridInfo board = new GridInfo(width, height);
+		board = new GridInfo(width, height);
 	}
 	
 	/*
@@ -28,18 +27,33 @@ public class TetrisGame {
 		System.out.println("Starting Game...");
 		boolean gameOver = false;
 		
-		//debug code: 
-			int counts = 0;
-		
+		//outer while loop to generate the shapes
 		while(!gameOver) {
-			//generate new shape
-			//TetrisShape newShape = randomShapeGen();
-			++counts;
-
-			if(counts == 30) {
+			//generate new shape and change its coords to start
+			TetrisShape currShape = generate();
+			currShape.starting(width);
+			
+			//check if the shape can be placed there
+			if(!board.checkShape(currShape)){
+				board.printGrid(currShape);
+				System.out.println(gameOver);
 				gameOver = true;
 			}
+			
+			//2nd while loop for dropping and rotating
+			while(true) {
+				
+			}
 		}
+		//resets the board
+		board.gameOver();
+	}
+	
+	private TetrisShape generate() {
+		TetrisShape x = new TetrisShape();
+		x.shapeGen();
+		
+		return x;
 	}
 	
 }

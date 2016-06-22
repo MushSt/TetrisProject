@@ -5,7 +5,6 @@ package tetris;
  */
 
 public class GridInfo {
-	final private int TOPBITS = 4;
 	
 	//default, makes default sized grid
 	private int width;
@@ -18,7 +17,7 @@ public class GridInfo {
 	}
 	
 	public GridInfo(int w, int h) {
-		height = h + TOPBITS;
+		height = h + Tetris.TOP_BITS;
 		width = w;
 		grid = new char[width][height];
 		resetGrid();
@@ -119,7 +118,7 @@ public class GridInfo {
 		Coordinate[] shape = x.getCoordinates();
 		boolean falling = false;
 		
-		for(int row = TOPBITS; row < height; ++row) {
+		for(int row = Tetris.TOP_BITS; row < height; ++row) {
 			for(int col = 0; col < width; ++col) {
 				Coordinate checker = new Coordinate(row, col);
 				
