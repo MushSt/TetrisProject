@@ -13,7 +13,7 @@ public class GridInfo {
 
   // constructors
   public GridInfo() {
-    this(Tetris.GRID_WIDTH, Tetris.GRID_HEIGHT);
+    this(Tetris.DEFAULT_GRID_WIDTH, Tetris.DEFAULT_GRID_HEIGHT);
   }
 
   public GridInfo(int w, int h) {

@@ -10,8 +10,8 @@ import java.util.Scanner;
 
 public class Tetris {
 
-  public final static int GRID_WIDTH = 10;
-  public final static int GRID_HEIGHT = 20;
+  public final static int DEFAULT_GRID_WIDTH = 10;
+  public final static int DEFAULT_GRID_HEIGHT = 20;
   public final static int TOP_BITS = 2;
 
   public static void main(String[] args) {
@@ -38,7 +38,7 @@ public class Tetris {
     if (line.length() < 3) {
       // invalid, so we go with the default
       System.out.println("bad input, using default values of 10x20");
-      return new Coordinate(GRID_WIDTH, GRID_HEIGHT);
+      return new Coordinate(DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT);
     }
 
     // check valid numbers
@@ -53,7 +53,7 @@ public class Tetris {
       System.out.println("using " + width + " as width, and " + height + " as height");
     } catch (Exception e) {
       System.out.println("bad input, using default values of 10x20");
-      return new Coordinate(GRID_WIDTH, GRID_HEIGHT);
+      return new Coordinate(DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT);
     }
 
     return sizes;

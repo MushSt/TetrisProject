@@ -10,7 +10,7 @@ public class TetrisGame {
 
   // default of 10x20
   public TetrisGame() {
-    this(new Coordinate(Tetris.GRID_WIDTH, Tetris.GRID_HEIGHT));
+    this(new Coordinate(Tetris.DEFAULT_GRID_WIDTH, Tetris.DEFAULT_GRID_HEIGHT));
   }
 
   public TetrisGame(Coordinate dims) {
