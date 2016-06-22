@@ -71,15 +71,22 @@ public class TetrisShape {
   }
 
   /*
-   * rotates this shape clockwise around 0,0 algorithm for this is row = col,
-   * col = -row
+   * rotates this shape clockwise around 0,0 algorithm for this is 
+   * row = col, col = -row
    */
   public TetrisShape rotateClock() {
+    // algorithm only works for when the origin is centered, so we calculate and
+    // save it
+    int rOffset = myShape[0].getRow();
+    int cOffset = myShape[0].getCol();
+    
     Coordinate[] newShape = new Coordinate[SHAPE_SIZE];
-
+    
     for (int i = 0; i < myShape.length; ++i) {
-      // moves down, so increase row by 1, col does not change
-      newShape[i] = new Coordinate(myShape[i].getCol(), -myShape[i].getRow());
+      // do rotation at origin and then change it back (-offset, +offset)
+      int newRow = myShape[i].getCol() - cOffset + rOffset;
+      int newCol = -(myShape[i].getRow() - rOffset) + cOffset;
+      newShape[i] = new Coordinate(newRow, newCol);
     }
 
     return new TetrisShape(newShape);
