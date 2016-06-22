@@ -19,7 +19,7 @@ public class GridInfo {
   public GridInfo(int w, int h) {
     height = h + Tetris.TOP_BITS;
     width = w;
-    grid = new char[width][height];
+    grid = new char[height][width];
     resetGrid();
   }
 
@@ -128,6 +128,7 @@ public class GridInfo {
   // prints the grid, but not the top 4 rows
   // prints out the falling block as '*' marks
   public void printGrid(TetrisShape x) {
+    System.out.println("Printing Grid...");
     Coordinate[] shape = x.getCoordinates();
     boolean falling = false;
 
@@ -142,7 +143,7 @@ public class GridInfo {
             falling = true;
           }
         }
-        if (falling) {
+        if (!falling) {
           System.out.print(grid[row][col]);
         }
         falling = false;

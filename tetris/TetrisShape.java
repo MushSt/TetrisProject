@@ -41,7 +41,7 @@ public class TetrisShape {
    */
   public void shapeGen() {
     Random rng = new Random(System.nanoTime());
-    int shapeNum = rng.nextInt(NUMSHAPES + 1);
+    int shapeNum = rng.nextInt(NUMSHAPES);
 
     switch (shapeNum) {
     case 0:
@@ -66,6 +66,7 @@ public class TetrisShape {
       deepCopy(shapeZ);
       break;
     default:
+      System.out.println("bad shape error: " + shapeNum);
       break;
     }
   }
@@ -163,11 +164,12 @@ public class TetrisShape {
   public void starting(int width) {
     // offsets based on dims of the board, should end up top/center
     int cOffset = width / 2;
-    int rOffset = getHeightOffset();
+    int rOffset = getHeightOffset() + PRINT_OFFSET;
 
-    for (int i = 0; i < SHAPE_SIZE; ++i) {
+    for (int i = 0; i < myShape.length; ++i) {
       myShape[i] = new Coordinate(myShape[i].getRow() + rOffset, myShape[i].getCol() + cOffset);
     }
+    printCoords();
   }
 
   /*
@@ -182,7 +184,7 @@ public class TetrisShape {
    */
   private void deepCopy(Coordinate[] x) {
     for (int i = 0; i < x.length; ++i) {
-      myShape[i] = x[i];
+      myShape[i] = new Coordinate(x[i].getRow(), x[i].getCol());
     }
   }
 
@@ -219,7 +221,9 @@ public class TetrisShape {
    */
   private int getHeightOffset() {
     int holder = 0;
-    for (int i = 0; i < SHAPE_SIZE; ++i) {
+    for (int i = 0; i < myShape.length; ++i) {
+      System.out.println(myShape.length);
+      System.out.println(myShape[i].getRow());
       int row = myShape[i].getRow();
 
       if (row < holder) {
@@ -227,5 +231,14 @@ public class TetrisShape {
       }
     }
     return -holder;
+  }
+  
+  /*
+   * helper testing method
+   */
+  private void printCoords() {
+    for(int i = 0; i < myShape.length; ++i) {
+      System.out.println(myShape[i].getRow()+ ", " +myShape[i].getCol());
+    }
   }
 }
