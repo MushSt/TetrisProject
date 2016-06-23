@@ -22,7 +22,7 @@ public class Tetris {
 
         String line = scan.nextLine();
 
-        TetrisGame newGame = new TetrisGame(validLine(line));
+        TetrisGame newGame = validLine(line);
         newGame.start();
 
         scan.close();
@@ -32,13 +32,13 @@ public class Tetris {
      * takes in the user input and parses it for width/height if invalid,
      * defaults to (10x20)
      */
-    private static Coordinate validLine(String line) {
-        Coordinate sizes;
+    private static TetrisGame validLine(String line) {
+        TetrisGame sizes;
 
         if (line.length() < 3) {
             // invalid, so we go with the default
             System.out.println("bad input, using default values of 10x20");
-            return new Coordinate(DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT);
+            return new TetrisGame(DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT);
         }
 
         // check valid numbers
@@ -49,11 +49,11 @@ public class Tetris {
 
             int width = Integer.parseInt(w);
             int height = Integer.parseInt(h);
-            sizes = new Coordinate(width, height);
+            sizes = new TetrisGame(width, height);
             System.out.println("using " + width + " as width, and " + height + " as height");
         } catch (Exception e) {
             System.out.println("bad input, using default values of 10x20");
-            return new Coordinate(DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT);
+            return new TetrisGame(DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT);
         }
 
         return sizes;

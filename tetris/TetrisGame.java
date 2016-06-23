@@ -24,15 +24,15 @@ public class TetrisGame {
 
     // default of 10x20
     public TetrisGame() {
-        this(new Coordinate(Tetris.DEFAULT_GRID_WIDTH, Tetris.DEFAULT_GRID_HEIGHT));
+        this(Tetris.DEFAULT_GRID_WIDTH, Tetris.DEFAULT_GRID_HEIGHT);
     }
 
-    public TetrisGame(Coordinate dims) {
-        width = dims.getRow();
-        height = dims.getCol();
+    public TetrisGame(int width, int height) {
+        this.width = width;
+        this.height = height;
 
         // make the game board
-        board = new GridInfo(width, height);
+        board = new GridInfo(this.width, this.height);
     }
 
     /**------------------------------------------------------------------------
@@ -77,6 +77,7 @@ public class TetrisGame {
         }
         // resets the board
         board.gameOver();
+        scan.close();
     }
 
     /**------------------------------------------------------------------------
@@ -94,30 +95,30 @@ public class TetrisGame {
         TetrisShape tempShape = currShape;
 
         switch (letterCommand) {
-        case LEFT:
-            tempShape = currShape.left();
-            break;
-        case RIGHT:
-            tempShape = currShape.right();
-            break;
-        case DOWN:
-            if (board.canSetShape(currShape)) {
-                linesCleared += board.setShape(currShape);
+            case LEFT:
+                tempShape = currShape.left();
+                break;
+            case RIGHT:
+                tempShape = currShape.right();
+                break;
+            case DOWN:
+                if (board.canSetShape(currShape)) {
+                    linesCleared += board.setShape(currShape);
+                    return true;
+                }
+                tempShape = currShape.down();
+                break;
+            case CLOCKWISE:
+                tempShape = currShape.rotateClock();
+                break;
+            case COUNTER_CLOCKWISE:
+                tempShape = currShape.rotateCounter();
+                break;
+            case DROP:
+                linesCleared += board.dropShape(currShape);
                 return true;
-            }
-            tempShape = currShape.down();
-            break;
-        case CLOCKWISE:
-            tempShape = currShape.rotateClock();
-            break;
-        case COUNTER_CLOCKWISE:
-            tempShape = currShape.rotateCounter();
-            break;
-        case DROP:
-            linesCleared += board.dropShape(currShape);
-            return true;
-        default:
-            break;
+            default:
+                break;
         }
         // if translated position is valid, then update it
         if (board.checkShape(tempShape)) {
