@@ -10,6 +10,16 @@ public class TetrisGame {
     final private char DROP = ' ';
     final private char CLOCKWISE = 'w';
     final private char COUNTER_CLOCKWISE = 'r';
+    final private int DROP_SCORE = 10;
+    final private int ONE_LINE = 40;
+    final private int TWO_LINES = 100;
+    final private int THREE_LINES = 300;
+    final private int FOUR_LINES = 1200;
+    final private int ONE = 1;
+    final private int TWO = 2;
+    final private int THREE = 3;
+    final private int FOUR = 4;
+    final private int LEVELUP = 10;
 
     private int width;
     private int height;
@@ -20,7 +30,7 @@ public class TetrisGame {
     private int linesCleared;
     private int gameLevel;
     private int currentScore;
-    private int bestScore;
+    private int highScore;
 
     // default of 10x20
     public TetrisGame() {
@@ -56,7 +66,7 @@ public class TetrisGame {
                 // condition
                 if (!board.checkShape(currShape)) {
                     board.printGrid(currShape);
-                    System.out.println(gameOver);
+                    gameOver();
                     gameOver = true;
                     break;
                 }
@@ -70,7 +80,8 @@ public class TetrisGame {
                 }
                 // does something with the input
                 if (parseCommand(command)) {
-                    // if returns true, we set the currShape and need a ne one
+                    // if returns true, we set the currShape and need a new one
+                    updateScoreDrop(); //increase score for successful drop
                     break;
                 }
             }
@@ -103,7 +114,7 @@ public class TetrisGame {
                 break;
             case DOWN:
                 if (board.canSetShape(currShape)) {
-                    linesCleared += board.setShape(currShape);
+                    calculateLineScores(board.setShape(currShape));
                     return true;
                 }
                 tempShape = currShape.down();
@@ -115,7 +126,7 @@ public class TetrisGame {
                 tempShape = currShape.rotateCounter();
                 break;
             case DROP:
-                linesCleared += board.dropShape(currShape);
+                calculateLineScores(board.dropShape(currShape));
                 return true;
             default:
                 break;
@@ -125,6 +136,72 @@ public class TetrisGame {
             currShape = tempShape;
         }
         return false;
+    }
+    
+    //TODO
+    /**------------------------------------------------------------------------
+     * helper method for updating and calculating the scores based on
+     * line clears
+     * 
+     * @param numLines
+     *            number of lines cleared by the block
+     *-----------------------------------------------------------------------*/
+    private void calculateLineScores(int numLines) {
+        int lineScore = 0;
+        switch(numLines) {
+            case ONE:
+                lineScore = ONE_LINE;
+                break;
+            case TWO:
+                lineScore = TWO_LINES;
+                break;
+            case THREE:
+                lineScore = THREE_LINES;
+                break;
+            case FOUR:
+                lineScore = FOUR_LINES;
+                break;
+            default:
+                break;
+        }
+        
+        currentScore += (lineScore * (gameLevel + 1));
+        linesCleared += numLines;
+        updateGameLevel();
+    }
+    
+    /**------------------------------------------------------------------------
+     * helper method for updating the score after successfully setting a shape
+     *-----------------------------------------------------------------------*/
+    private void updateScoreDrop() {
+        currentScore += DROP_SCORE;
+    }
+    
+    /**------------------------------------------------------------------------
+     * helper method to take care of the details when game over
+     *-----------------------------------------------------------------------*/
+    private void gameOver() {
+        //update bestScore
+        if(currentScore > highScore) {
+            highScore = currentScore;
+        }
+        System.out.println("Game Over, you reached level " +gameLevel);
+        System.out.println("Score: " +currentScore);
+        System.out.println("High Score: " +highScore);
+        System.out.println("Lines Cleared: " +linesCleared);
+        
+        currentScore = 0;
+        linesCleared = 0;
+        gameLevel = 0;
+    }
+    
+    /**------------------------------------------------------------------------
+     * updates the game level based on lines cleared
+     * 
+     * every LEVELUP lines cleared, we level up
+     *-----------------------------------------------------------------------*/
+    private void updateGameLevel() {
+        gameLevel = linesCleared % LEVELUP;
     }
 
 }

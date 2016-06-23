@@ -16,15 +16,28 @@ public class Tetris {
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
+        
+        char playAgain;
 
         System.out.println("Grid Size? (Default is 10x20)");
         System.out.println("Enter query as widthxheight:");
 
         String line = scan.nextLine();
-
-        TetrisGame newGame = validLine(line);
-        newGame.start();
-
+        
+        do {
+            TetrisGame newGame = validLine(line);
+            newGame.start();
+            System.out.println("Play again?  y/n");
+            try{
+                String playAgainStr = scan.next().trim().toLowerCase();
+                playAgain = playAgainStr.charAt(0);
+            } 
+            catch(Exception e) {
+                playAgain = 'n';
+            }
+        }
+        while(playAgain == 'y');
+        
         scan.close();
     }
 
