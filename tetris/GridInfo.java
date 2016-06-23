@@ -5,6 +5,9 @@ package tetris;
  */
 
 public class GridInfo {
+    private final char SET = '0';
+    private final char EMPTY = '.';
+    private final char FALLING = '*';
 
     // default, makes default sized grid
     private int width;
@@ -46,8 +49,8 @@ public class GridInfo {
                 return false;
             }
 
-            // will use 'X' as taken blocks
-            if (grid[row][col] == 'X') {
+            // will use SET as taken blocks
+            if (grid[row][col] == SET) {
                 return false;
             }
         }
@@ -92,7 +95,7 @@ public class GridInfo {
             int row = s[i].getRow();
             int col = s[i].getCol();
 
-            grid[row][col] = 'X';
+            grid[row][col] = SET;
         }
         return checkLines(shape);
     }
@@ -130,7 +133,7 @@ public class GridInfo {
     private boolean checkLine(int row) {
 
         for (int i = 0; i < width; ++i) {
-            if (grid[row][i] != 'X') {
+            if (grid[row][i] != SET) {
                 return false;
             }
         }
@@ -149,7 +152,7 @@ public class GridInfo {
             for (int col = 0; col < width; ++col) {
                 if (r == 0) {
                     // top row gets reset to empty
-                    grid[r][col] = '.';
+                    grid[r][col] = EMPTY;
                 } else {
                     grid[r][col] = grid[r - 1][col];
                 }
@@ -199,7 +202,7 @@ public class GridInfo {
      * printed as '*'
      * 
      * @param x
-     *            current falling shape that is to be printed with '*'
+     *            current falling shape that is to be printed with FALLING
      *-----------------------------------------------------------------------*/
     public void printGrid(TetrisShape x) {
         System.out.println("Printing Grid...");
@@ -213,7 +216,7 @@ public class GridInfo {
                 // if falling block piece here, print * instead
                 for (int i = 0; i < shape.length; ++i) {
                     if (checker.equals(shape[i])) {
-                        System.out.print('*');
+                        System.out.print(FALLING);
                         falling = true;
                     }
                 }
@@ -228,12 +231,12 @@ public class GridInfo {
     }
 
     /**------------------------------------------------------------------------
-     * sets the grid up to start as empty spaces, denoted with '.'
+     * sets the grid up to start as empty spaces, denoted with EMPTY
      * ----------------------------------------------------------------------*/
     private void resetGrid() {
         for (int row = 0; row < height; ++row) {
             for (int col = 0; col < width; ++col) {
-                grid[row][col] = '.';
+                grid[row][col] = EMPTY;
             }
         }
     }

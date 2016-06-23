@@ -1,9 +1,9 @@
 package tetris;
-/*------------------------------------------------------
- * 	Coordinates object, (row,col) 
+/*
+ * Coordinates object, (row,col) 
  * row, col because dealing with a matrix, easier to 
  * work with 
- *-----------------------------------------------------*/
+ */
 
 public class Coordinate {
 

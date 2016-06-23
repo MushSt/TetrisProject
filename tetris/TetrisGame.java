@@ -65,7 +65,9 @@ public class TetrisGame {
 
                 // gets the user input
                 String command = scan.nextLine();
-
+                if(command.length() == 0) {
+                    continue;
+                }
                 // does something with the input
                 if (parseCommand(command)) {
                     // if returns true, we set the currShape and need a ne one
@@ -100,7 +102,7 @@ public class TetrisGame {
             break;
         case DOWN:
             if (board.canSetShape(currShape)) {
-                board.setShape(currShape);
+                linesCleared += board.setShape(currShape);
                 return true;
             }
             tempShape = currShape.down();
@@ -112,7 +114,7 @@ public class TetrisGame {
             tempShape = currShape.rotateCounter();
             break;
         case DROP:
-            board.dropShape(currShape);
+            linesCleared += board.dropShape(currShape);
             return true;
         default:
             break;
