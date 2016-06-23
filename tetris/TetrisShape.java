@@ -39,9 +39,9 @@ public class TetrisShape {
         deepCopy(shape);
     }
 
-    /*
-     * method to turn TetrisShape into a random shape
-     */
+    /**--------------------------------------------------------------------------
+     * Turns myShape into a random shape
+     *-------------------------------------------------------------------------*/
     public void shapeGen() {
         Random rng = new Random(System.nanoTime());
         int shapeNum = rng.nextInt(NUMSHAPES);
@@ -74,10 +74,14 @@ public class TetrisShape {
         }
     }
 
-    /*
-     * rotates this shape clockwise around 0,0 algorithm for this is row = col,
-     * col = -row
-     */
+    /**--------------------------------------------------------------------------
+     * returns a TetrisShape rotated clockwise about the origin block
+     * note:    does the rotation around the generated position, 
+     *          and translates it back to the current position
+     * algorithm is: row = col, col = -row
+     * 
+     * @return updated coordinates of the rotated shape
+     *-------------------------------------------------------------------------*/
     public TetrisShape rotateClock() {
         // algorithm only works for when the origin is centered, so we calculate
         // and
@@ -97,10 +101,14 @@ public class TetrisShape {
         return new TetrisShape(newShape);
     }
 
-    /*
-     * rotates this shape counterclockwise algorithm is reverse of clockwise, so
-     * row = -col, col = row
-     */
+    /**--------------------------------------------------------------------------
+     * returns a TetrisShape rotated counterclockwise about the origin block
+     * note:    does the rotation around the generated position, 
+     *          and translates it back to the current position
+     * algorithm is: row = -col, col = row
+     * 
+     * @return updated coordinates of the rotated shape
+     *-------------------------------------------------------------------------*/
     public TetrisShape rotateCounter() {
         // algorithm only works for when the origin is centered, so we calculate
         // and
@@ -120,9 +128,11 @@ public class TetrisShape {
         return new TetrisShape(newShape);
     }
 
-    /*
-     * returns TetrisShape of this shape moved down 1 level
-     */
+    /**--------------------------------------------------------------------------
+     * returns a TetrisShape moved down 1 block from the current position
+     * 
+     * @return updated coordinates of the shifted shape
+     *-------------------------------------------------------------------------*/
     public TetrisShape down() {
         Coordinate[] newShape = new Coordinate[SHAPE_SIZE];
 
@@ -134,9 +144,11 @@ public class TetrisShape {
         return new TetrisShape(newShape);
     }
 
-    /*
-     * returns TetrisShape of this shape moved left 1 level
-     */
+    /**--------------------------------------------------------------------------
+     * returns a TetrisShape moved left 1 block from the current position
+     * 
+     * @return updated coordinates of the shifted shape
+     *-------------------------------------------------------------------------*/
     public TetrisShape left() {
         Coordinate[] newShape = new Coordinate[SHAPE_SIZE];
 
@@ -148,9 +160,11 @@ public class TetrisShape {
         return new TetrisShape(newShape);
     }
 
-    /*
-     * returns TetrisShape of this shape moved right 1 level
-     */
+    /**--------------------------------------------------------------------------
+     * returns a TetrisShape moved right 1 block from the current position
+     * 
+     * @return updated coordinates of the shifted shape
+     *-------------------------------------------------------------------------*/
     public TetrisShape right() {
         Coordinate[] newShape = new Coordinate[SHAPE_SIZE];
 
@@ -162,10 +176,11 @@ public class TetrisShape {
         return new TetrisShape(newShape);
     }
 
-    /*
-     * changes coordinates of the shape to the starting position takes as input
-     * the dimensions of the board
-     */
+    /**--------------------------------------------------------------------------
+     * puts the generated shape at the starting point of the grid
+     * 
+     * @param width of the grid to center the piece
+     *-------------------------------------------------------------------------*/
     public void starting(int width) {
         // offsets based on dims of the board, should end up top/center
         int cOffset = width / 2;
@@ -177,17 +192,20 @@ public class TetrisShape {
         printCoords();
     }
 
-    /*
-     * gets the array of coordinates that defines this shape
-     */
+    /**--------------------------------------------------------------------------
+     * get the coordinates of the shape
+     * 
+     * @return coordinate array of this shape
+     *-------------------------------------------------------------------------*/
     public Coordinate[] getCoordinates() {
         return myShape;
     }
 
-    /*
-     * method to return the max and min heights returns an array of size 2,
-     * [top, bot]
-     */
+    /**--------------------------------------------------------------------------
+     * figures out the bounds of the shape (used for clearing lines)
+     * 
+     * @return an array of size 2, with format [top, bot] 
+     *-------------------------------------------------------------------------*/
     public int[] shapeBounds() {
         int[] bounds = new int[BOUNDS]; // initialized to 0
 
@@ -202,18 +220,9 @@ public class TetrisShape {
         return bounds;
     }
 
-    /*
-     * makes a deep copy of the shape in question into myShape
-     */
-    private void deepCopy(Coordinate[] x) {
-        for (int i = 0; i < x.length; ++i) {
-            myShape[i] = new Coordinate(x[i].getRow(), x[i].getCol());
-        }
-    }
-
-    /*
-     * Prints Shape in a 5x5 box (testing purposes)
-     */
+    /**--------------------------------------------------------------------------
+     * prints the shape into a 5x5 grid for testing purposes
+     *-------------------------------------------------------------------------*/
     public void printShape() {
         int rOffset = myShape[0].getRow();
         int cOffset = myShape[0].getCol();
@@ -238,10 +247,12 @@ public class TetrisShape {
         }
     }
 
-    /*
-     * helper method for starting point, finds the highest point so we can
-     * figure out where to put it returns the height offset (positive)
-     */
+    /**--------------------------------------------------------------------------
+     * helper method: gets the highest point of the shape
+     * note:    only used by starting(width), so initial highest point is negative
+     * 
+     * @return the offset (absolute value of the highest point above 0)
+     *-------------------------------------------------------------------------*/
     private int getHeightOffset() {
         int holder = 0;
         for (int i = 0; i < myShape.length; ++i) {
@@ -254,12 +265,21 @@ public class TetrisShape {
         return -holder;
     }
 
-    /*
-     * helper testing method
-     */
+    /**--------------------------------------------------------------------------
+     * Prints the coordinates of this shape (testing purposes)
+     *-------------------------------------------------------------------------*/
     private void printCoords() {
         for (int i = 0; i < myShape.length; ++i) {
             System.out.println(myShape[i].getRow() + ", " + myShape[i].getCol());
+        }
+    }
+    
+    /**--------------------------------------------------------------------------
+     * makes a deep copy of the given coordinates into myShape
+     *-------------------------------------------------------------------------*/
+    private void deepCopy(Coordinate[] x) {
+        for (int i = 0; i < x.length; ++i) {
+            myShape[i] = new Coordinate(x[i].getRow(), x[i].getCol());
         }
     }
 }
