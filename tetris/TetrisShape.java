@@ -47,30 +47,30 @@ public class TetrisShape {
         int shapeNum = rng.nextInt(NUMSHAPES);
 
         switch (shapeNum) {
-        case 0:
-            deepCopy(shapeI);
-            break;
-        case 1:
-            deepCopy(shapeL);
-            break;
-        case 2:
-            deepCopy(shapeJ);
-            break;
-        case 3:
-            deepCopy(shapeT);
-            break;
-        case 4:
-            deepCopy(shapeO);
-            break;
-        case 5:
-            deepCopy(shapeS);
-            break;
-        case 6:
-            deepCopy(shapeZ);
-            break;
-        default:
-            System.out.println("bad shape error: " + shapeNum);
-            break;
+            case 0:
+                deepCopy(shapeI);
+                break;
+            case 1:
+                deepCopy(shapeL);
+                break;
+            case 2:
+                deepCopy(shapeJ);
+                break;
+            case 3:
+                deepCopy(shapeT);
+                break;
+            case 4:
+                deepCopy(shapeO);
+                break;
+            case 5:
+                deepCopy(shapeS);
+                break;
+            case 6:
+                deepCopy(shapeZ);
+                break;
+            default:
+                System.out.println("bad shape error: " + shapeNum);
+                break;
         }
     }
 
