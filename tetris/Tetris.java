@@ -23,13 +23,15 @@ public class Tetris {
         System.out.println("Enter query as widthxheight:");
 
         String line = scan.nextLine();
-        
+        TetrisGame newGame = validLine(line);
+
         do {
-            TetrisGame newGame = validLine(line);
             newGame.start();
+            scan = new Scanner(System.in); //open the scanner again, because it was closed in TetrisGame
             System.out.println("Play again?  y/n");
+            String playAgainStr = scan.nextLine();
             try{
-                String playAgainStr = scan.next().trim().toLowerCase();
+                playAgainStr.trim().toLowerCase();
                 playAgain = playAgainStr.charAt(0);
             } 
             catch(Exception e) {

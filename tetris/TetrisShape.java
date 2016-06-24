@@ -182,6 +182,9 @@ public class TetrisShape {
      * @param width of the grid to center the piece
      *-------------------------------------------------------------------------*/
     public void starting(int width) {
+        //puts the shape to starting point first
+        toOrigin();
+        
         // offsets based on dims of the board, should end up top/center
         int cOffset = width / 2;
         int rOffset = getHeightOffset() + PRINT_OFFSET;
@@ -189,7 +192,7 @@ public class TetrisShape {
         for (int i = 0; i < myShape.length; ++i) {
             myShape[i] = new Coordinate(myShape[i].getRow() + rOffset, myShape[i].getCol() + cOffset);
         }
-        printCoords();
+        //printCoords();
     }
 
     /**--------------------------------------------------------------------------
@@ -230,7 +233,7 @@ public class TetrisShape {
         char[][] smallGrid = new char[SHAPE_SIZE + 1][SHAPE_SIZE + 1];
         for (int row = 0; row <= SHAPE_SIZE; ++row) {
             for (int col = 0; col <= SHAPE_SIZE; ++col) {
-                smallGrid[row][col] = '.';
+                smallGrid[row][col] = ' ';
             }
         }
         for (int i = 0; i < myShape.length; ++i) {
@@ -255,6 +258,7 @@ public class TetrisShape {
      *-------------------------------------------------------------------------*/
     private int getHeightOffset() {
         int holder = 0;
+        //standard loop for getting max value
         for (int i = 0; i < myShape.length; ++i) {
             int row = myShape[i].getRow();
 
@@ -268,7 +272,7 @@ public class TetrisShape {
     /**--------------------------------------------------------------------------
      * Prints the coordinates of this shape (testing purposes)
      *-------------------------------------------------------------------------*/
-    private void printCoords() {
+    public void printCoords() {
         for (int i = 0; i < myShape.length; ++i) {
             System.out.println(myShape[i].getRow() + ", " + myShape[i].getCol());
         }
@@ -280,6 +284,19 @@ public class TetrisShape {
     private void deepCopy(Coordinate[] x) {
         for (int i = 0; i < x.length; ++i) {
             myShape[i] = new Coordinate(x[i].getRow(), x[i].getCol());
+        }
+    }
+    
+    /**--------------------------------------------------------------------------
+     * moves the shape back to origin (used for swaps)
+     *-------------------------------------------------------------------------*/
+    private void toOrigin() {
+        int rOffset = myShape[0].getRow();
+        int cOffset = myShape[0].getCol();
+        
+        for(int i = 0; i < myShape.length; ++i) {
+            myShape[i].setCol(myShape[i].getCol() - cOffset);
+            myShape[i].setRow(myShape[i].getRow() - rOffset);
         }
     }
 }

@@ -10,6 +10,7 @@ public class TetrisGame {
     final private char DROP = ' ';
     final private char CLOCKWISE = 'w';
     final private char COUNTER_CLOCKWISE = 'r';
+    final private char SWAP = 'q';
     final private int DROP_SCORE = 10;
     final private int ONE_LINE = 40;
     final private int TWO_LINES = 100;
@@ -19,12 +20,13 @@ public class TetrisGame {
     final private int TWO = 2;
     final private int THREE = 3;
     final private int FOUR = 4;
-    final private int LEVELUP = 10;
+    final private int LEVELUP = 5;
 
     private int width;
     private int height;
     private GridInfo board;
     private TetrisShape currShape;
+    private TetrisShape swapShape;
 
     // stats to keep track of
     private int linesCleared;
@@ -52,14 +54,20 @@ public class TetrisGame {
         System.out.println("Starting Game...");
         Scanner scan = new Scanner(System.in);
         boolean gameOver = false;
+        boolean hasSwap = false;
+        
+        TetrisShape nextShape = new TetrisShape();
+        nextShape.shapeGen();
 
         // outer while loop to generate the shapes
         while (!gameOver) {
             // generate new shape and change its coords to start
-            currShape = new TetrisShape();
-            currShape.shapeGen();
+            currShape = nextShape;
             currShape.starting(width);
 
+            nextShape = new TetrisShape();
+            nextShape.shapeGen();
+            
             // 2nd while loop for dropping and rotating
             while (true) {
                 // check if the shape can be placed there, and gameOver
@@ -70,7 +78,13 @@ public class TetrisGame {
                     gameOver = true;
                     break;
                 }
-
+                
+                System.out.print("Next Shape: ");
+                nextShape.printShape();
+                if(hasSwap) {
+                    System.out.print("swap Shape: ");
+                    swapShape.printShape();
+                }
                 board.printGrid(currShape);
 
                 // gets the user input
@@ -78,17 +92,28 @@ public class TetrisGame {
                 if(command.length() == 0) {
                     continue;
                 }
-                // does something with the input
-                if (parseCommand(command)) {
-                    // if returns true, we set the currShape and need a new one
-                    updateScoreDrop(); //increase score for successful drop
-                    break;
+                
+                //special case of swap
+                if(command.charAt(0) == SWAP) {
+                    //goes into swap helper method, if returns true then we need a new piece
+                    if(swap(hasSwap)) {
+                        hasSwap = true;
+                        break;
+                    }
                 }
+                else {
+                    // does something with the input
+                    if (parseCommand(command)) {
+                        // if returns true, we set the currShape and need a new one
+                        updateScoreDrop(); //increase score for successful drop
+                        break;
+                    }
+                }
+                
             }
         }
         // resets the board
         board.gameOver();
-        scan.close();
     }
 
     /**------------------------------------------------------------------------
@@ -201,7 +226,33 @@ public class TetrisGame {
      * every LEVELUP lines cleared, we level up
      *-----------------------------------------------------------------------*/
     private void updateGameLevel() {
-        gameLevel = linesCleared % LEVELUP;
+        gameLevel = linesCleared / LEVELUP;
+    }
+    
+    /**--------------------------------------------------------------------------
+     * takes care of the swap case
+     * 
+     * @param hasSwap
+     *            if we actually swap or not
+     *            
+     * @return whether need to get a new shape or not
+     *-------------------------------------------------------------------------*/
+    private boolean swap(boolean hasSwap) {
+        if(hasSwap) {
+            //swaps currShape and swapShape, swapShape back to origin
+            TetrisShape temp = currShape;
+            temp.starting(width);
+            currShape = swapShape;
+            swapShape = temp;
+            return false;
+        }
+        else {
+            //puts current shape into swapShape, sets hasSwap to true, gets new shape
+            swapShape = currShape;
+            swapShape.starting(width);
+            hasSwap = true;
+            return true;
+        }
     }
 
 }

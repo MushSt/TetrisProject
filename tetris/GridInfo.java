@@ -8,6 +8,7 @@ public class GridInfo {
     private final char SET = '0';
     private final char EMPTY = '.';
     private final char FALLING = '*';
+    private final char GHOST = 'x';
 
     // default, makes default sized grid
     private int width;
@@ -207,6 +208,10 @@ public class GridInfo {
     public void printGrid(TetrisShape x) {
         System.out.println("Printing Grid...");
         Coordinate[] shape = x.getCoordinates();
+        
+        TetrisShape ghost = getGhost(x);
+        Coordinate[] ghostShape = ghost.getCoordinates();
+        
         boolean falling = false;
 
         for (int row = Tetris.TOP_BITS; row < height; ++row) {
@@ -219,6 +224,13 @@ public class GridInfo {
                         System.out.print(FALLING);
                         falling = true;
                     }
+                    else {
+                        //prints ghostShape if not equal to fallingShape
+                        if(checker.equals(ghostShape[i])) {
+                            System.out.print(GHOST);
+                            falling = true;
+                        }
+                    }
                 }
                 if (!falling) {
                     System.out.print(grid[row][col]);
@@ -228,6 +240,27 @@ public class GridInfo {
             // newline at end of the row
             System.out.println();
         }
+    }
+    
+    /**------------------------------------------------------------------------
+     * returns the coordinates of the shape at its lowest possible position 
+     * helps with aiming, known as the ghost shape
+     * 
+     * @param fallingShape
+     *            the shape being dropped
+     * @return the ghost shape
+     *-----------------------------------------------------------------------*/   
+    private TetrisShape getGhost(TetrisShape fallingShape) {
+        TetrisShape ghostShape = fallingShape.down();
+        if(!checkShape(ghostShape)) {
+            return fallingShape;
+        }
+        // loop moving down until we can set the shape
+        while (!canSetShape(ghostShape)) {
+            ghostShape = ghostShape.down();
+        }
+
+        return ghostShape;
     }
 
     /**------------------------------------------------------------------------
