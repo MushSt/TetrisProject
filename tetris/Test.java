@@ -1,30 +1,36 @@
 package tetris;
 
-import java.util.Scanner;
 
-public class Test {
-  final static int[] x = { 5, 3, 2 };
-  final static String var = "way";
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
-  public static void main(String[] args) {
-    // TODO Auto-generated method stub
-    TetrisShape x = new TetrisShape();
-    x.shapeGen();
+public class Test extends Application {
+    public static void main(String[] args) {
+        launch(args);
+    }
 
-    x.printShape();
-    System.out.println();
-    x = x.rotateClock();
-    x.printShape();
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Hello World!");
+        Button btn = new Button();
+        btn.setText("Say 'Hello World'");
+        btn.setOnAction(new EventHandler<ActionEvent>() {
 
-    System.out.println();
-    
-    x = x.down();
-    x.printShape();
-    
-    System.out.println();
-    
-    x = x.rotateClock();
-    x.printShape();
-  }
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Hello World!");
+            }
+        });
+
+        StackPane root = new StackPane();
+        root.getChildren().add(btn);
+        primaryStage.setScene(new Scene(root, 300, 250));
+        primaryStage.show();
+    }
 
 }
