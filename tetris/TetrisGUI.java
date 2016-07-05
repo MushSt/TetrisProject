@@ -11,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -148,6 +149,7 @@ public class TetrisGUI extends Application {
             @Override
             public void handle(ActionEvent event) {
                 stage.setScene(game);
+                gameSetup(game);
             }
         });
         changeDims.setOnAction(new EventHandler<ActionEvent> () {
@@ -167,5 +169,9 @@ public class TetrisGUI extends Application {
         });
         stage.show();
     }
-
+    
+    private void gameSetup(Scene game) {
+        Canvas board = new Canvas();
+        
+    }
 }
