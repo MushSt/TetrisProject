@@ -4,6 +4,8 @@ package tetris;
  * also updates the grid as things happen
  */
 
+import TestCode.Tetris;
+
 public class GridInfo {
     private final char SET = '0';
     private final char EMPTY = '.';
