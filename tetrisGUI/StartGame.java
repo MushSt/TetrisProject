@@ -14,24 +14,30 @@ public class StartGame implements Runnable, StartGameInterface{
     //Constants:
     
     //Member Variables:
+    private boolean gameOver;
+    private GridGraphics draw;
     
     
     public StartGame(Canvas gameGrid) {
-        
-        
-        
- 
+        draw = new GridGraphics(gameGrid);
+        gameOver = false;
+        //System.out.println("DEBUG STATEMENT");
     }
     
     //ActionListeners go here:
     
     
-    
+    //setters
+    public void setGameOver() {
+        gameOver = true;
+    }
     
     @Override
     public void run() {
         // TODO Auto-generated method stub
-        
+        while(!gameOver) {
+            
+        }
     }
     
 }
