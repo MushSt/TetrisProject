@@ -19,6 +19,6 @@ public interface CoordinateInterface {
      *            coordinate to be compared to this
      * @return whether this coordinate equals x
      *-----------------------------------------------------------------------*/
-    boolean equals(CoordinateInterface x);
+    boolean equals(Coordinate x);
 
 }

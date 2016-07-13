@@ -3,7 +3,6 @@ package TestCode;
 import java.util.Scanner;
 
 import tetris.GridInfo;
-import tetris.GridInterface;
 import tetris.TetrisShape;
 
 public class TetrisGame {
@@ -28,7 +27,7 @@ public class TetrisGame {
 
     private int width;
     private int height;
-    private GridInterface board;
+    private GridInfo board;
     private TetrisShape currShape;
     private TetrisShape swapShape;
 

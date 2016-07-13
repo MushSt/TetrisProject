@@ -9,7 +9,7 @@ public interface GridInterface {
      *             the shape to be checked
      * @return whether the coordinates of the current shape are valid
      *-------------------------------------------------------------------------*/
-    boolean checkShape(TetrisShapeInterface shape);
+    boolean checkShape(TetrisShape shape);
 
     /**--------------------------------------------------------------------------
      * checks if we can set the shape onto the grid
@@ -18,7 +18,7 @@ public interface GridInterface {
      *             the shape to be set
      * @return whether the shape can be set
      *-------------------------------------------------------------------------*/
-    boolean canSetShape(TetrisShapeInterface shape);
+    boolean canSetShape(TetrisShape shape);
 
     /**------------------------------------------------------------------------
      * set the shape onto the grid
@@ -34,9 +34,8 @@ public interface GridInterface {
      *-----------------------------------------------------------------------*/
     void gameOver();
 
-    /**
-     * -----------------------------------------------------------------------
-     * - gets the current grid
+    /**-----------------------------------------------------------------------
+     * gets the current grid
      * 
      * @return the current grid as a char array
      *-----------------------------------------------------------------------*/
@@ -53,12 +52,12 @@ public interface GridInterface {
     int dropShape(TetrisShape shape);
 
     /**------------------------------------------------------------------------
-     * prints the current grid, minus the offset rows the falling blocks are
-     * printed as '*'
+     * returns the coordinates of the shape at its lowest possible position 
+     * helps with aiming, known as the ghost shape
      * 
-     * @param x
-     *            current falling shape that is to be printed with FALLING
-     *-----------------------------------------------------------------------*/
-    void printGrid(TetrisShapeInterface x);
-
+     * @param fallingShape
+     *            the shape being dropped
+     * @return the ghost shape
+     *-----------------------------------------------------------------------*/   
+    TetrisShape getGhost(TetrisShape fallingShape);
 }

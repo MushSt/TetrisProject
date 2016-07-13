@@ -5,19 +5,19 @@ import java.util.Random;
 public class TetrisShape implements TetrisShapeInterface {
     // index 0 of each shape is (0,0), which we will use as the center of the
     // shapes
-    final private CoordinateInterface[] shapeI = { new Coordinate(0, 0), new Coordinate(1, 0), new Coordinate(-1, 0),
+    final private Coordinate[] shapeI = { new Coordinate(0, 0), new Coordinate(1, 0), new Coordinate(-1, 0),
             new Coordinate(2, 0) };
-    final private CoordinateInterface[] shapeL = { new Coordinate(0, 0), new Coordinate(1, 1), new Coordinate(1, 0),
+    final private Coordinate[] shapeL = { new Coordinate(0, 0), new Coordinate(1, 1), new Coordinate(1, 0),
             new Coordinate(-1, 0) };
-    final private CoordinateInterface[] shapeJ = { new Coordinate(0, 0), new Coordinate(1, -1), new Coordinate(1, 0),
+    final private Coordinate[] shapeJ = { new Coordinate(0, 0), new Coordinate(1, -1), new Coordinate(1, 0),
             new Coordinate(-1, 0) };
-    final private CoordinateInterface[] shapeT = { new Coordinate(0, 0), new Coordinate(0, 1), new Coordinate(0, -1),
+    final private Coordinate[] shapeT = { new Coordinate(0, 0), new Coordinate(0, 1), new Coordinate(0, -1),
             new Coordinate(-1, 0) };
-    final private CoordinateInterface[] shapeO = { new Coordinate(0, 0), new Coordinate(-1, 0), new Coordinate(0, -1),
+    final private Coordinate[] shapeO = { new Coordinate(0, 0), new Coordinate(-1, 0), new Coordinate(0, -1),
             new Coordinate(-1, -1) };
-    final private CoordinateInterface[] shapeS = { new Coordinate(0, 0), new Coordinate(-1, 0), new Coordinate(0, -1),
+    final private Coordinate[] shapeS = { new Coordinate(0, 0), new Coordinate(-1, 0), new Coordinate(0, -1),
             new Coordinate(-1, 1) };
-    final private CoordinateInterface[] shapeZ = { new Coordinate(0, 0), new Coordinate(-1, -1), new Coordinate(-1, 0),
+    final private Coordinate[] shapeZ = { new Coordinate(0, 0), new Coordinate(-1, -1), new Coordinate(-1, 0),
             new Coordinate(0, 1) };
     final public int SHAPE_SIZE = 4;
     final public int NUMSHAPES = 7;
@@ -26,23 +26,22 @@ public class TetrisShape implements TetrisShapeInterface {
     final public int BOT = 1;
     final private int BOUNDS = 2;
 
-    private CoordinateInterface[] myShape;
+    private Coordinate[] myShape;
 
     // null argument constructor does nothing
     public TetrisShape() {
-        myShape = new CoordinateInterface[SHAPE_SIZE];
+        myShape = new Coordinate[SHAPE_SIZE];
     }
 
     // constructor to make a new shape object based on previous one
-    public TetrisShape(CoordinateInterface[] shape) {
-        myShape = new CoordinateInterface[SHAPE_SIZE];
+    public TetrisShape(Coordinate[] shape) {
+        myShape = new Coordinate[SHAPE_SIZE];
         deepCopy(shape);
     }
 
-    /* (non-Javadoc)
-     * @see tetris.TetrisShapeInterface#shapeGen()
-     */
-    @Override
+    /**--------------------------------------------------------------------------
+     * Turns myShape into a random shape
+     *-------------------------------------------------------------------------*/
     public void shapeGen() {
         Random rng = new Random(System.nanoTime());
         int shapeNum = rng.nextInt(NUMSHAPES);
@@ -75,10 +74,14 @@ public class TetrisShape implements TetrisShapeInterface {
         }
     }
 
-    /* (non-Javadoc)
-     * @see tetris.TetrisShapeInterface#rotateClock()
-     */
-    @Override
+    /**--------------------------------------------------------------------------
+     * returns a TetrisShape rotated clockwise about the origin block
+     * note:    does the rotation around the generated position, 
+     *          and translates it back to the current position
+     * algorithm is: row = col, col = -row
+     * 
+     * @return updated coordinates of the rotated shape
+     *-------------------------------------------------------------------------*/
     public TetrisShape rotateClock() {
         // algorithm only works for when the origin is centered, so we calculate
         // and
@@ -86,7 +89,7 @@ public class TetrisShape implements TetrisShapeInterface {
         int rOffset = myShape[0].getRow();
         int cOffset = myShape[0].getCol();
 
-        CoordinateInterface[] newShape = new CoordinateInterface[SHAPE_SIZE];
+        Coordinate[] newShape = new Coordinate[SHAPE_SIZE];
 
         for (int i = 0; i < myShape.length; ++i) {
             // do rotation at origin and then change it back (-offset, +offset)
@@ -98,10 +101,14 @@ public class TetrisShape implements TetrisShapeInterface {
         return new TetrisShape(newShape);
     }
 
-    /* (non-Javadoc)
-     * @see tetris.TetrisShapeInterface#rotateCounter()
-     */
-    @Override
+    /**--------------------------------------------------------------------------
+     * returns a TetrisShape rotated counterclockwise about the origin block
+     * note:    does the rotation around the generated position, 
+     *          and translates it back to the current position
+     * algorithm is: row = -col, col = row
+     * 
+     * @return updated coordinates of the rotated shape
+     *-------------------------------------------------------------------------*/
     public TetrisShape rotateCounter() {
         // algorithm only works for when the origin is centered, so we calculate
         // and
@@ -109,7 +116,7 @@ public class TetrisShape implements TetrisShapeInterface {
         int rOffset = myShape[0].getRow();
         int cOffset = myShape[0].getCol();
 
-        CoordinateInterface[] newShape = new CoordinateInterface[SHAPE_SIZE];
+        Coordinate[] newShape = new Coordinate[SHAPE_SIZE];
 
         for (int i = 0; i < myShape.length; ++i) {
             // do rotation at origin and then change it back (-offset, +offset)
@@ -121,12 +128,13 @@ public class TetrisShape implements TetrisShapeInterface {
         return new TetrisShape(newShape);
     }
 
-    /* (non-Javadoc)
-     * @see tetris.TetrisShapeInterface#down()
-     */
-    @Override
+    /**--------------------------------------------------------------------------
+     * returns a TetrisShape moved down 1 block from the current position
+     * 
+     * @return updated coordinates of the shifted shape
+     *-------------------------------------------------------------------------*/
     public TetrisShape down() {
-        CoordinateInterface[] newShape = new CoordinateInterface[SHAPE_SIZE];
+        Coordinate[] newShape = new Coordinate[SHAPE_SIZE];
 
         for (int i = 0; i < myShape.length; ++i) {
             // moves down, so increase row by 1, col does not change
@@ -136,12 +144,13 @@ public class TetrisShape implements TetrisShapeInterface {
         return new TetrisShape(newShape);
     }
 
-    /* (non-Javadoc)
-     * @see tetris.TetrisShapeInterface#left()
-     */
-    @Override
+    /**--------------------------------------------------------------------------
+     * returns a TetrisShape moved left 1 block from the current position
+     * 
+     * @return updated coordinates of the shifted shape
+     *-------------------------------------------------------------------------*/
     public TetrisShape left() {
-        CoordinateInterface[] newShape = new CoordinateInterface[SHAPE_SIZE];
+        Coordinate[] newShape = new Coordinate[SHAPE_SIZE];
 
         for (int i = 0; i < myShape.length; ++i) {
             // moves left, so decrease col by 1, row does not change
@@ -151,12 +160,13 @@ public class TetrisShape implements TetrisShapeInterface {
         return new TetrisShape(newShape);
     }
 
-    /* (non-Javadoc)
-     * @see tetris.TetrisShapeInterface#right()
-     */
-    @Override
+    /**--------------------------------------------------------------------------
+     * returns a TetrisShape moved right 1 block from the current position
+     * 
+     * @return updated coordinates of the shifted shape
+     *-------------------------------------------------------------------------*/
     public TetrisShape right() {
-        CoordinateInterface[] newShape = new CoordinateInterface[SHAPE_SIZE];
+        Coordinate[] newShape = new Coordinate[SHAPE_SIZE];
 
         for (int i = 0; i < myShape.length; ++i) {
             // moves right, so increase col by 1, row does not change
@@ -166,10 +176,11 @@ public class TetrisShape implements TetrisShapeInterface {
         return new TetrisShape(newShape);
     }
 
-    /* (non-Javadoc)
-     * @see tetris.TetrisShapeInterface#starting(int)
-     */
-    @Override
+    /**--------------------------------------------------------------------------
+     * puts the generated shape at the starting point of the grid
+     * 
+     * @param width of the grid to center the piece
+     *-------------------------------------------------------------------------*/
     public void starting(int width) {
         //puts the shape to starting point first
         toOrigin();
@@ -184,18 +195,20 @@ public class TetrisShape implements TetrisShapeInterface {
         //printCoords();
     }
 
-    /* (non-Javadoc)
-     * @see tetris.TetrisShapeInterface#getCoordinates()
-     */
-    @Override
-    public CoordinateInterface[] getCoordinates() {
+    /**--------------------------------------------------------------------------
+     * get the coordinates of the shape
+     * 
+     * @return coordinate array of this shape
+     *-------------------------------------------------------------------------*/
+    public Coordinate[] getCoordinates() {
         return myShape;
     }
 
-    /* (non-Javadoc)
-     * @see tetris.TetrisShapeInterface#shapeBounds()
-     */
-    @Override
+    /**--------------------------------------------------------------------------
+     * figures out the bounds of the shape (used for clearing lines)
+     * 
+     * @return an array of size 2, with format [top, bot] 
+     *-------------------------------------------------------------------------*/
     public int[] shapeBounds() {
         int[] bounds = new int[BOUNDS]; // initialized to 0
 
@@ -210,10 +223,9 @@ public class TetrisShape implements TetrisShapeInterface {
         return bounds;
     }
 
-    /* (non-Javadoc)
-     * @see tetris.TetrisShapeInterface#printShape()
-     */
-    @Override
+    /**--------------------------------------------------------------------------
+     * prints the shape into a 5x5 grid for testing purposes
+     *-------------------------------------------------------------------------*/
     public void printShape() {
         int rOffset = myShape[0].getRow();
         int cOffset = myShape[0].getCol();
@@ -257,10 +269,9 @@ public class TetrisShape implements TetrisShapeInterface {
         return -holder;
     }
 
-    /* (non-Javadoc)
-     * @see tetris.TetrisShapeInterface#printCoords()
-     */
-    @Override
+    /**--------------------------------------------------------------------------
+     * Prints the coordinates of this shape (testing purposes)
+     *-------------------------------------------------------------------------*/
     public void printCoords() {
         for (int i = 0; i < myShape.length; ++i) {
             System.out.println(myShape[i].getRow() + ", " + myShape[i].getCol());
@@ -270,7 +281,7 @@ public class TetrisShape implements TetrisShapeInterface {
     /**--------------------------------------------------------------------------
      * makes a deep copy of the given coordinates into myShape
      *-------------------------------------------------------------------------*/
-    private void deepCopy(CoordinateInterface[] x) {
+    private void deepCopy(Coordinate[] x) {
         for (int i = 0; i < x.length; ++i) {
             myShape[i] = new Coordinate(x[i].getRow(), x[i].getCol());
         }

@@ -1,6 +1,7 @@
 package tetris;
 
-public interface TetrisShapeInterface {
+public interface TetrisShapeInterface
+{
 
     /**--------------------------------------------------------------------------
      * Turns myShape into a random shape
@@ -15,7 +16,7 @@ public interface TetrisShapeInterface {
      * 
      * @return updated coordinates of the rotated shape
      *-------------------------------------------------------------------------*/
-    TetrisShapeInterface rotateClock();
+    TetrisShape rotateClock();
 
     /**--------------------------------------------------------------------------
      * returns a TetrisShape rotated counterclockwise about the origin block
@@ -25,28 +26,28 @@ public interface TetrisShapeInterface {
      * 
      * @return updated coordinates of the rotated shape
      *-------------------------------------------------------------------------*/
-    TetrisShapeInterface rotateCounter();
+    TetrisShape rotateCounter();
 
     /**--------------------------------------------------------------------------
      * returns a TetrisShape moved down 1 block from the current position
      * 
      * @return updated coordinates of the shifted shape
      *-------------------------------------------------------------------------*/
-    TetrisShapeInterface down();
+    TetrisShape down();
 
     /**--------------------------------------------------------------------------
      * returns a TetrisShape moved left 1 block from the current position
      * 
      * @return updated coordinates of the shifted shape
      *-------------------------------------------------------------------------*/
-    TetrisShapeInterface left();
+    TetrisShape left();
 
     /**--------------------------------------------------------------------------
      * returns a TetrisShape moved right 1 block from the current position
      * 
      * @return updated coordinates of the shifted shape
      *-------------------------------------------------------------------------*/
-    TetrisShapeInterface right();
+    TetrisShape right();
 
     /**--------------------------------------------------------------------------
      * puts the generated shape at the starting point of the grid
@@ -60,7 +61,7 @@ public interface TetrisShapeInterface {
      * 
      * @return coordinate array of this shape
      *-------------------------------------------------------------------------*/
-    CoordinateInterface[] getCoordinates();
+    Coordinate[] getCoordinates();
 
     /**--------------------------------------------------------------------------
      * figures out the bounds of the shape (used for clearing lines)

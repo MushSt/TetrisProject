@@ -58,7 +58,7 @@ public class Coordinate implements CoordinateInterface {
      * @see tetris.CoordinateInterface#equals(tetris.CoordinateInterface)
      */
     @Override
-    public boolean equals(CoordinateInterface x) {
+    public boolean equals(Coordinate x) {
         int xrow = x.getRow();
         int xcol = x.getCol();
 

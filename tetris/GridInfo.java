@@ -4,13 +4,15 @@ package tetris;
  * also updates the grid as things happen
  */
 
-import TestCode.Tetris;
+import tetrisGUI.MainMenu;
 
 public class GridInfo implements GridInterface {
-    private final char SET = '0';
-    private final char EMPTY = '.';
-    private final char FALLING = '*';
-    private final char GHOST = 'x';
+    public final char SET = '0';
+    public final char EMPTY = '.';
+    public final char FALLING = '*';
+    public final char GHOST = 'x';
+    
+    public static final int TOP_BITS = 2;
 
     // default, makes default sized grid
     private int width;
@@ -19,22 +21,33 @@ public class GridInfo implements GridInterface {
 
     // constructors
     public GridInfo() {
-        this(Tetris.DEFAULT_GRID_WIDTH, Tetris.DEFAULT_GRID_HEIGHT);
+        this(MainMenu.DEFAULT_GRIDWIDTH, MainMenu.DEFAULT_GRIDHEIGHT);
     }
 
     public GridInfo(int w, int h) {
-        height = h + Tetris.TOP_BITS;
+        height = h + TOP_BITS;
         width = w;
         grid = new char[height][width];
         resetGrid();
     }
-
-    /* (non-Javadoc)
-     * @see tetris.GridInterface#checkShape(tetris.TetrisShape)
-     */
-    @Override
-    public boolean checkShape(TetrisShapeInterface shape) {
-        CoordinateInterface[] shapeCords = shape.getCoordinates();
+    
+    public int getWidth() {
+        return width;
+    }
+    
+    public int getHeight() {
+        return height;
+    }
+    
+    /**--------------------------------------------------------------------------
+     * checks if the shape can be placed, by checking the shape's 4 coordinates
+     * 
+     * @param shape
+     *             the shape to be checked
+     * @return whether the coordinates of the current shape are valid
+     *-------------------------------------------------------------------------*/
+    public boolean checkShape(TetrisShape shape) {
+        Coordinate[] shapeCords = shape.getCoordinates();
         // loop through the coordinates in shape to check validity
         for (int i = 0; i < shapeCords.length; ++i) {
             int row = shapeCords[i].getRow();
@@ -57,18 +70,21 @@ public class GridInfo implements GridInterface {
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see tetris.GridInterface#canSetShape(tetris.TetrisShape)
-     */
-    @Override
-    public boolean canSetShape(TetrisShapeInterface shape) {
+    /**--------------------------------------------------------------------------
+     * checks if we can set the shape onto the grid
+     * 
+     * @param shape
+     *             the shape to be set
+     * @return whether the shape can be set
+     *-------------------------------------------------------------------------*/
+    public boolean canSetShape(TetrisShape shape) {
         // base case
         if (!checkShape(shape)) {
             return false;
         }
         // conditions for successful set shape:
         // 1. there are blocks directly under (can't place shape.down)
-        TetrisShapeInterface check = shape.down();
+        TetrisShape check = shape.down();
 
         // if 1 level below is invalid, then we can set the shape
         if (!checkShape(check)) {
@@ -78,12 +94,15 @@ public class GridInfo implements GridInterface {
         return false;
     }
 
-    /* (non-Javadoc)
-     * @see tetris.GridInterface#setShape(tetris.TetrisShape)
-     */
-    @Override
+    /**------------------------------------------------------------------------
+     * set the shape onto the grid
+     * 
+     * @param shape
+     *            the current shape
+     * @return how many lines were cleared after setting the shape
+     *-----------------------------------------------------------------------*/
     public int setShape(TetrisShape shape) {
-        CoordinateInterface[] s = shape.getCoordinates();
+        Coordinate[] s = shape.getCoordinates();
 
         for (int i = 0; i < s.length; ++i) {
             int row = s[i].getRow();
@@ -154,26 +173,30 @@ public class GridInfo implements GridInterface {
         }
     }
 
-    /* (non-Javadoc)
-     * @see tetris.GridInterface#gameOver()
-     */
-    @Override
+    /**------------------------------------------------------------------------
+     * resets the game board after the game ends
+     *-----------------------------------------------------------------------*/
     public void gameOver() {
         resetGrid();
     }
 
-    /* (non-Javadoc)
-     * @see tetris.GridInterface#getGrid()
-     */
-    @Override
+    /**-----------------------------------------------------------------------
+     * gets the current grid
+     * 
+     * @return the current grid as a char array
+     *-----------------------------------------------------------------------*/
     public char[][] getGrid() {
         return grid;
     }
 
-    /* (non-Javadoc)
-     * @see tetris.GridInterface#dropShape(tetris.TetrisShape)
-     */
-    @Override
+    /**------------------------------------------------------------------------
+     * drops the current shape to the lowest point it can go note: assumes
+     * that the shape's current position is valid
+     * 
+     * @param shape
+     *            the shape to be dropped
+     * @return how many lines were cleared by the shape
+     *-----------------------------------------------------------------------*/
     public int dropShape(TetrisShape shape) {
 
         // loop moving down until we can set the shape
@@ -186,22 +209,23 @@ public class GridInfo implements GridInterface {
         return setShape(shape);
     }
 
-    /* (non-Javadoc)
-     * @see tetris.GridInterface#printGrid(tetris.TetrisShape)
+    /**
+     * Test method, not for use in final product
+     * @param x
+     *          falling shape
      */
-    @Override
-    public void printGrid(TetrisShapeInterface x) {
+    public void printGrid(TetrisShape x) {
         System.out.println("Printing Grid...");
-        CoordinateInterface[] shape = x.getCoordinates();
+        Coordinate[] shape = x.getCoordinates();
         
-        TetrisShapeInterface ghost = getGhost(x);
-        CoordinateInterface[] ghostShape = ghost.getCoordinates();
+        TetrisShape ghost = getGhost(x);
+        Coordinate[] ghostShape = ghost.getCoordinates();
         
         boolean falling = false;
 
-        for (int row = Tetris.TOP_BITS; row < height; ++row) {
+        for (int row = TOP_BITS; row < height; ++row) {
             for (int col = 0; col < width; ++col) {
-                CoordinateInterface checker = new Coordinate(row, col);
+                Coordinate checker = new Coordinate(row, col);
 
                 // if falling block piece here, print * instead
                 for (int i = 0; i < shape.length; ++i) {
@@ -235,8 +259,8 @@ public class GridInfo implements GridInterface {
      *            the shape being dropped
      * @return the ghost shape
      *-----------------------------------------------------------------------*/   
-    private TetrisShapeInterface getGhost(TetrisShapeInterface fallingShape) {
-        TetrisShapeInterface ghostShape = fallingShape.down();
+    public TetrisShape getGhost(TetrisShape fallingShape) {
+        TetrisShape ghostShape = fallingShape.down();
         if(!checkShape(ghostShape)) {
             return fallingShape;
         }
