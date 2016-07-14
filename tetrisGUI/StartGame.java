@@ -2,6 +2,7 @@ package tetrisGUI;
 
 //IMPORTS
 import javafx.scene.canvas.Canvas;
+import javafx.scene.input.KeyCode;
 import tetris.GridInfo;
 import tetris.TetrisShape;
 
@@ -30,14 +31,14 @@ public class StartGame implements Runnable, StartGameInterface{
     private TetrisShape nextShape;
     
     private int width;
+    private boolean playing;
     
     public StartGame(Canvas gameGrid) {
         draw = new GridGraphics(gameGrid);
-        gameOver = false;
-        gridState = new GridInfo();
+        setup();
         width = gridState.getWidth();
-        draw.constructGridLines();
-        //System.out.println("DEBUG STATEMENT");
+
+        
     }
     
     //ActionListeners go here:
@@ -46,6 +47,14 @@ public class StartGame implements Runnable, StartGameInterface{
     //setters
     public void setGameOver() {
         gameOver = true;
+    }
+    
+    private void setup() {
+        gridState = new GridInfo();
+        draw.constructGridLines();
+        draw.drawGrid(gridState);
+        
+        gameOver = false;
     }
     
     //timer setting
@@ -60,11 +69,20 @@ public class StartGame implements Runnable, StartGameInterface{
         else{
             int lines = gridState.setShape(currShape);
             MainMenu.updateLinesCleared(lines);
+            MainMenu.updateScoreDrop();
             draw.drawGrid(gridState);
             
             newShape();
+            
+            //check if game can continue
+            checkGameState();
+            
             drawShape(currShape);
         }
+    }
+    
+    public boolean isInPlay() {
+        return playing;
     }
     
     private void newShape() {
@@ -76,14 +94,35 @@ public class StartGame implements Runnable, StartGameInterface{
         MainMenu.updateNext(nextShape);
     }
     
-    @Override
-    public void run() {
+    public synchronized void newCommand(KeyCode key) {
+        //System.out.println("DETECTED KEYCODE!!!!!!!!!***********");
+        if(key.isWhitespaceKey()) {
+            if(gameOver) {
+                return;
+            }
+            gridState.dropShape(currShape);
+            droppedSetup();
+        }
+    }
+    
+    public void newGame() {
+        setup();
+        runSetup();
+    }
+    
+    private void runSetup() {
         boolean hasSwap = false;
+        playing = true;
         
         //initialize the grid state
-        draw.drawGrid(gridState);
         gridState = new GridInfo();
         
+        droppedSetup();
+        
+    }
+    
+    private void droppedSetup() {
+        draw.drawGrid(gridState);
         currShape = new TetrisShape();
         currShape.shapeGen();
         currShape.starting(width);
@@ -91,15 +130,36 @@ public class StartGame implements Runnable, StartGameInterface{
         nextShape = new TetrisShape();
         nextShape.shapeGen();
         MainMenu.updateNext(nextShape);
+        MainMenu.updateScoreDrop();
         
         drawShape(currShape);
+        checkGameState();
+    }
+    
+    @Override
+    public void run() {
+        runSetup();
+        
+        //debug
+        int counter = 0;
         
         //main gameplay loop
         while(!gameOver) {
-            System.out.println("DEBUG: Gone into run loop");
-            
-            gameOver = true;
+            if(counter < 5) {
+                System.out.println(counter);
+                
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                }
+            }
         }
+        
+        //force timer to stop
+        System.out.println("attempting stop");
+        DropTimer.pause();
+        MainMenu.gameOver();
+        return;
     }
     
     private void drawShape(TetrisShape shape) {
@@ -110,6 +170,14 @@ public class StartGame implements Runnable, StartGameInterface{
     private void clearShape(TetrisShape shape) {
         draw.clearCells(shape);
         draw.clearCells(gridState.getGhost(shape));
+    }
+    
+    private void checkGameState() {
+        System.out.println("DEBUG: CHECK STATE");
+        if(!gridState.checkShape(currShape)) {
+            System.out.println("gameover");
+            setGameOver();
+        }
     }
     
 }

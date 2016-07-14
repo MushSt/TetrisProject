@@ -15,9 +15,9 @@ public class Coordinate implements CoordinateInterface {
         this(0, 0);
     }
 
-    public Coordinate(int x, int y) {
-        row = x;
-        col = y;
+    public Coordinate(int r, int c) {
+        row = r;
+        col = c;
     }
 
     // public mutators

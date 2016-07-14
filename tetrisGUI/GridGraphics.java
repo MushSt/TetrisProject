@@ -24,6 +24,7 @@ public class GridGraphics implements GridGraphicsInterface {
     public static final Paint FALLING_COLOR = Color.GOLD;
     public static final Paint GHOST_COLOR = Color.GRAY;
     public static final Paint BACKGROUND_COLOR = Color.BLACK;
+    public static final Paint GRIDLINE_COLOR = Color.BLACK;
     public static final Paint SETPIECE_COLOR = Color.ORANGE;
 
     //Member Variables:
@@ -60,7 +61,7 @@ public class GridGraphics implements GridGraphicsInterface {
      *-------------------------------------------------------------------------*/
     public synchronized Canvas constructGridLines() {
         //set color 
-        gc.setFill(Color.BLACK);
+        gc.setFill(GRIDLINE_COLOR);
         //col borders
         for(int col = 0; col <= width; ++col) {
             double colPix = col * UNIT_PIXELS;
