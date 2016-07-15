@@ -61,6 +61,8 @@ public class MainMenu extends Application {
     private static TextDraw currScoreText;
     private static TextDraw clearedLinesText;
     private static TextDraw highScoreText;
+    private static DropTimer timer;
+    private static StartGame game;
     
     public static void main(String[] args) {
         launch(args);
@@ -216,8 +218,8 @@ public class MainMenu extends Application {
         leftHold.getChildren().add(quitGame);
         
         //setup game
-        StartGame game = new StartGame(gameGrid);
-        DropTimer timer = new DropTimer(gameLevel, game);
+        game = new StartGame(gameGrid);
+        timer = new DropTimer(gameLevel, game);
         timer.pause();
         Thread timeThread = new Thread(timer);
         timeThread.start();
@@ -370,5 +372,9 @@ public class MainMenu extends Application {
     public static void updateScoreDrop() {
         currentScore += DROP_SCORE;
         currScoreText.updateText(""+currentScore);
+    }
+    
+    public static void pauseTimer() {
+        timer.pause();
     }
 }

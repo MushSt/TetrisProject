@@ -79,7 +79,7 @@ public class DropTimer implements Runnable {
         stop = true;
     }
     
-    public synchronized static void pause() {
+    public synchronized void pause() {
         paused = true;
     }
     

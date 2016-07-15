@@ -157,7 +157,7 @@ public class StartGame implements Runnable, StartGameInterface{
         
         //force timer to stop
         System.out.println("attempting stop");
-        DropTimer.pause();
+        MainMenu.pauseTimer();
         MainMenu.gameOver();
         return;
     }
