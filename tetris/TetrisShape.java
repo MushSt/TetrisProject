@@ -2,7 +2,7 @@ package tetris;
 
 import java.util.Random;
 
-public class TetrisShape {
+public class TetrisShape implements TetrisShapeInterface {
     // index 0 of each shape is (0,0), which we will use as the center of the
     // shapes
     final private Coordinate[] shapeI = { new Coordinate(0, 0), new Coordinate(1, 0), new Coordinate(-1, 0),

@@ -5,7 +5,7 @@ package tetris;
  * work with 
  */
 
-public class Coordinate {
+public class Coordinate implements CoordinateInterface {
 
     private int row;
     private int col;
@@ -15,36 +15,49 @@ public class Coordinate {
         this(0, 0);
     }
 
-    public Coordinate(int x, int y) {
-        row = x;
-        col = y;
+    public Coordinate(int r, int c) {
+        row = r;
+        col = c;
     }
 
     // public mutators
+    /* (non-Javadoc)
+     * @see tetris.CoordinateInterface#setRow(int)
+     */
+    @Override
     public void setRow(int x) {
         row = x;
     }
 
+    /* (non-Javadoc)
+     * @see tetris.CoordinateInterface#setCol(int)
+     */
+    @Override
     public void setCol(int y) {
         col = y;
     }
 
     // public accessors
+    /* (non-Javadoc)
+     * @see tetris.CoordinateInterface#getRow()
+     */
+    @Override
     public int getRow() {
         return row;
     }
 
+    /* (non-Javadoc)
+     * @see tetris.CoordinateInterface#getCol()
+     */
+    @Override
     public int getCol() {
         return col;
     }
 
-    /**------------------------------------------------------------------------
-     * comparison method
-     * 
-     * @param x
-     *            coordinate to be compared to this
-     * @return whether this coordinate equals x
-     *-----------------------------------------------------------------------*/
+    /* (non-Javadoc)
+     * @see tetris.CoordinateInterface#equals(tetris.CoordinateInterface)
+     */
+    @Override
     public boolean equals(Coordinate x) {
         int xrow = x.getRow();
         int xcol = x.getCol();

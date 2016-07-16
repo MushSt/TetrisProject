@@ -1,6 +1,9 @@
-package tetris;
+package TestCode;
 
 import java.util.Scanner;
+
+import tetris.GridInfo;
+import tetris.TetrisShape;
 
 public class TetrisGame {
 
@@ -52,6 +55,7 @@ public class TetrisGame {
      *-----------------------------------------------------------------------*/
     public void start() {
         System.out.println("Starting Game...");
+        @SuppressWarnings("resource")
         Scanner scan = new Scanner(System.in);
         boolean gameOver = false;
         boolean hasSwap = false;

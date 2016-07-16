@@ -1,4 +1,4 @@
-package tetris;
+package TestCode;
 
 import java.util.Scanner;
 
@@ -13,6 +13,7 @@ public class Tetris {
     public final static int DEFAULT_GRID_WIDTH = 10;
     public final static int DEFAULT_GRID_HEIGHT = 20;
     public final static int TOP_BITS = 2;
+    
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);

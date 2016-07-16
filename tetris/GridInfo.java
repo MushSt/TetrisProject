@@ -4,11 +4,15 @@ package tetris;
  * also updates the grid as things happen
  */
 
-public class GridInfo {
-    private final char SET = '0';
-    private final char EMPTY = '.';
-    private final char FALLING = '*';
-    private final char GHOST = 'x';
+import tetrisGUI.MainMenu;
+
+public class GridInfo implements GridInterface {
+    public final char SET = '0';
+    public final char EMPTY = '.';
+    public final char FALLING = '*';
+    public final char GHOST = 'x';
+    
+    public static final int TOP_BITS = 2;
 
     // default, makes default sized grid
     private int width;
@@ -17,16 +21,24 @@ public class GridInfo {
 
     // constructors
     public GridInfo() {
-        this(Tetris.DEFAULT_GRID_WIDTH, Tetris.DEFAULT_GRID_HEIGHT);
+        this(MainMenu.DEFAULT_GRIDWIDTH, MainMenu.DEFAULT_GRIDHEIGHT);
     }
 
     public GridInfo(int w, int h) {
-        height = h + Tetris.TOP_BITS;
+        height = h + TOP_BITS;
         width = w;
         grid = new char[height][width];
         resetGrid();
     }
-
+    
+    public int getWidth() {
+        return width;
+    }
+    
+    public int getHeight() {
+        return height;
+    }
+    
     /**--------------------------------------------------------------------------
      * checks if the shape can be placed, by checking the shape's 4 coordinates
      * 
@@ -168,9 +180,8 @@ public class GridInfo {
         resetGrid();
     }
 
-    /**
-     * -----------------------------------------------------------------------
-     * - gets the current grid
+    /**-----------------------------------------------------------------------
+     * gets the current grid
      * 
      * @return the current grid as a char array
      *-----------------------------------------------------------------------*/
@@ -198,13 +209,11 @@ public class GridInfo {
         return setShape(shape);
     }
 
-    /**------------------------------------------------------------------------
-     * prints the current grid, minus the offset rows the falling blocks are
-     * printed as '*'
-     * 
+    /**
+     * Test method, not for use in final product
      * @param x
-     *            current falling shape that is to be printed with FALLING
-     *-----------------------------------------------------------------------*/
+     *          falling shape
+     */
     public void printGrid(TetrisShape x) {
         System.out.println("Printing Grid...");
         Coordinate[] shape = x.getCoordinates();
@@ -214,7 +223,7 @@ public class GridInfo {
         
         boolean falling = false;
 
-        for (int row = Tetris.TOP_BITS; row < height; ++row) {
+        for (int row = TOP_BITS; row < height; ++row) {
             for (int col = 0; col < width; ++col) {
                 Coordinate checker = new Coordinate(row, col);
 
@@ -250,7 +259,7 @@ public class GridInfo {
      *            the shape being dropped
      * @return the ghost shape
      *-----------------------------------------------------------------------*/   
-    private TetrisShape getGhost(TetrisShape fallingShape) {
+    public TetrisShape getGhost(TetrisShape fallingShape) {
         TetrisShape ghostShape = fallingShape.down();
         if(!checkShape(ghostShape)) {
             return fallingShape;
