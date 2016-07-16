@@ -7,16 +7,6 @@ import tetrisGUI.StartGame.ShapeType;
 
 public interface GridGraphicsInterface {
     
-    /*
-     * This class handles drawing the canvas and updating the shapes
-     */
-    /**--------------------------------------------------------------------------
-     * Draws the grid lines in the grid, making an empty grid
-     * Only called during the setup
-     * 
-     * @return the new canvas that we drew
-     *-------------------------------------------------------------------------*/
-    public Canvas constructGridLines();
     
     /**--------------------------------------------------------------------------
      * Redraws the canvas according to the gridState, used at setup and

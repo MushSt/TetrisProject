@@ -59,7 +59,7 @@ public class GridGraphics implements GridGraphicsInterface {
      * 
      * @return the new canvas that we drew
      *-------------------------------------------------------------------------*/
-    public synchronized Canvas constructGridLines() {
+    private synchronized Canvas constructGridLines() {
         //set color 
         gc.setFill(GRIDLINE_COLOR);
         //col borders
@@ -87,6 +87,8 @@ public class GridGraphics implements GridGraphicsInterface {
      * @return the new canvas that we drew
      *-------------------------------------------------------------------------*/
     public synchronized Canvas drawGrid(GridInfo gridState) {
+        constructGridLines();
+        
         char[][] grid = gridState.getGrid();
         int buffer = GridInfo.TOP_BITS;
         //for loop through the grid

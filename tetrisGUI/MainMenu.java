@@ -217,30 +217,33 @@ public class MainMenu extends Application {
         leftHold.getChildren().add(pauseButton);
         leftHold.getChildren().add(quitGame);
         
-        //setup game
+        //don't allow the buttons to be accessed via keyboard
+        
+        startButton.addEventFilter(KeyEvent.ANY, (e) -> gameGrid.requestFocus());
+        pauseButton.addEventFilter(KeyEvent.ANY, (e) -> gameGrid.requestFocus());
+        quitGame.addEventFilter(KeyEvent.ANY, (e) -> gameGrid.requestFocus());
+        
         game = new StartGame(gameGrid);
+        game.drawGrid();
         timer = new DropTimer(gameLevel, game);
         timer.pause();
         Thread timeThread = new Thread(timer);
-        timeThread.start();
-        Thread gameThread = new Thread(game);
+        timeThread.setDaemon(true);
         
+        //start timer
+        timeThread.start();
+
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             //start game button pressed
             @Override
             public void handle(ActionEvent event) {
-                //kill the previous thread
+                //save the stats and restart the game
                 handleGameOver(game, timer);
-
+                
                 game.newGame();
                 timer.unpause();
-                
-                try {
-                    //restart the thread
-                    gameThread.start();
-                }
-                catch(Exception e) {}
             }
+       
         });
         
         pauseButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -289,6 +292,7 @@ public class MainMenu extends Application {
         primaryStage.show();
     }
 
+    
     private synchronized static void handleGameOver(StartGame game, DropTimer timer) {
         game.setGameOver();
         timer.pause();

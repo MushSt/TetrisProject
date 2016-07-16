@@ -13,7 +13,7 @@ import tetris.TetrisShape;
  * It will also handle events with keylisteners, etc
  */
 
-public class StartGame implements Runnable, StartGameInterface{
+public class StartGame implements StartGameInterface{
     //enum for shape
     public enum ShapeType{
         FALLING, GHOST
@@ -31,147 +31,132 @@ public class StartGame implements Runnable, StartGameInterface{
     private TetrisShape nextShape;
     
     private int width;
-    private boolean playing;
     
+    //constructor
     public StartGame(Canvas gameGrid) {
         draw = new GridGraphics(gameGrid);
-        setup();
-        width = gridState.getWidth();
-
         
-    }
-    
-    //ActionListeners go here:
-    
-    
-    //setters
-    public void setGameOver() {
-        gameOver = true;
-    }
-    
-    private void setup() {
         gridState = new GridInfo();
-        draw.constructGridLines();
+        
+        width = gridState.getWidth();
+    }
+    
+    
+    //KeyCode from a new command is detected (keylistener stuff)
+    public synchronized void newCommand(KeyCode key) {
+        //System.out.println("DETECTED KEYCODE!!!!!!!!!***********");
+        //base case, if game over, user commands should not work
+        if(gameOver) {
+            System.out.println("DEBUG: game over, ignore key");
+            return;
+        }
+        
+        if(key.isWhitespaceKey()) {
+            handleDroppedShape();
+        }
+    }
+    
+    //initial setup for when run() is called. 
+    private void init(boolean newGame) {
+        if(newGame) {
+            gridState = new GridInfo();
+        }
+        //draw the grid
         draw.drawGrid(gridState);
         
+        //get a new shape, and next shape
+        newShape(true);
+        
+        //game is now running
         gameOver = false;
     }
+    
+    
     
     //timer setting
     public void dropTick() {
         //check if can drop shape by 1, if can't set shape and get a new one
-        System.out.println("DEBUG: ticked");
+        //System.out.println("DEBUG: ticked");
         if(gridState.checkShape(currShape.down())) {
             clearShape(currShape);
             currShape = currShape.down();
             drawShape(currShape);
         }
         else{
-            int lines = gridState.setShape(currShape);
-            MainMenu.updateLinesCleared(lines);
-            MainMenu.updateScoreDrop();
-            draw.drawGrid(gridState);
-            
-            newShape();
-            
-            //check if game can continue
-            checkGameState();
-            
-            drawShape(currShape);
+            handleDroppedShape();
         }
     }
     
-    public boolean isInPlay() {
-        return playing;
-    }
-    
-    private void newShape() {
-        currShape = nextShape;
-        currShape.starting(width);
-        nextShape = new TetrisShape();
-        nextShape.shapeGen();
-        
-        MainMenu.updateNext(nextShape);
-    }
-    
-    public synchronized void newCommand(KeyCode key) {
-        //System.out.println("DETECTED KEYCODE!!!!!!!!!***********");
-        if(key.isWhitespaceKey()) {
-            if(gameOver) {
-                return;
-            }
-            gridState.dropShape(currShape);
-            droppedSetup();
-        }
-    }
-    
-    public void newGame() {
-        setup();
-        runSetup();
-    }
-    
-    private void runSetup() {
-        boolean hasSwap = false;
-        playing = true;
-        
-        //initialize the grid state
-        gridState = new GridInfo();
-        
-        droppedSetup();
-        
-    }
-    
-    private void droppedSetup() {
+    //after a shape has been dropped, handles the details
+    private void handleDroppedShape() {
         draw.drawGrid(gridState);
-        currShape = new TetrisShape();
-        currShape.shapeGen();
-        currShape.starting(width);
         
-        nextShape = new TetrisShape();
-        nextShape.shapeGen();
-        MainMenu.updateNext(nextShape);
+        int lines = gridState.dropShape(currShape);
+        MainMenu.updateLinesCleared(lines);
         MainMenu.updateScoreDrop();
         
-        drawShape(currShape);
+        //currShape = nextShape, update mainmenu, draw shape
+        newShape(false);
+
         checkGameState();
     }
+
     
-    @Override
-    public void run() {
-        runSetup();
-        
-        //debug
-        int counter = 0;
-        
-        //main gameplay loop
-        while(!gameOver) {
-            if(counter < 5) {
-                System.out.println(counter);
-                
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                }
-            }
+    //generate new shape, update next shape, draw the shape on the grid
+    //input is true if next is not initialized yet
+    private void newShape(boolean hasNext) {
+        if(hasNext) {
+            currShape = new TetrisShape();
+            currShape.shapeGen();
         }
+        else {
+            currShape = nextShape;
+        }
+        currShape.starting(width);
         
-        //force timer to stop
-        System.out.println("attempting stop");
-        MainMenu.pauseTimer();
-        MainMenu.gameOver();
-        return;
+        nextShape = new TetrisShape();
+        nextShape.shapeGen();
+        MainMenu.updateNext(nextShape);
+        
+        drawShape(currShape);
     }
     
+
+    
+    //initialize for a new game
+    public void newGame() {
+        init(true);
+    }
+
+    //flag for game over, and stops the timer
+    public void setGameOver() {
+        gameOver = true;
+        MainMenu.pauseTimer();
+    }
+    
+    //draws empty grid
+    public void drawGrid() {
+        draw.drawGrid(gridState);
+    }    
+    
+    //returns whether the game is in play
+    public boolean isInPlay() {
+        return !gameOver;
+    }
+    
+    //draws the shape and its ghost on the grid
     private void drawShape(TetrisShape shape) {
         draw.fillCells(gridState.getGhost(shape), ShapeType.GHOST);
         draw.fillCells(shape, ShapeType.FALLING);
     }
     
+    //clears the shape and its ghost from the grid
     private void clearShape(TetrisShape shape) {
         draw.clearCells(shape);
         draw.clearCells(gridState.getGhost(shape));
     }
     
+    //checks if we can continue the game
     private void checkGameState() {
         System.out.println("DEBUG: CHECK STATE");
         if(!gridState.checkShape(currShape)) {
