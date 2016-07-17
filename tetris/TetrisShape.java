@@ -2,6 +2,10 @@ package tetris;
 
 import java.util.Random;
 
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+
+
 public class TetrisShape implements TetrisShapeInterface {
     // index 0 of each shape is (0,0), which we will use as the center of the
     // shapes
@@ -25,8 +29,17 @@ public class TetrisShape implements TetrisShapeInterface {
     final public int TOP = 0;
     final public int BOT = 1;
     final private int BOUNDS = 2;
+    
+    final private Paint I_COLOR = Color.DARKTURQUOISE;
+    final private Paint L_COLOR = Color.BURLYWOOD;
+    final private Paint J_COLOR = Color.CHARTREUSE;
+    final private Paint T_COLOR = Color.CORNFLOWERBLUE;
+    final private Paint O_COLOR = Color.ORANGE;
+    final private Paint S_COLOR = Color.YELLOWGREEN;
+    final private Paint Z_COLOR = Color.PALEVIOLETRED;
 
     private Coordinate[] myShape;
+    private Paint shapeColor;
 
     // null argument constructor does nothing
     public TetrisShape() {
@@ -39,6 +52,10 @@ public class TetrisShape implements TetrisShapeInterface {
         deepCopy(shape);
     }
 
+    public Paint getColor() {
+        return shapeColor;
+    }
+    
     /**--------------------------------------------------------------------------
      * Turns myShape into a random shape
      *-------------------------------------------------------------------------*/
@@ -49,24 +66,31 @@ public class TetrisShape implements TetrisShapeInterface {
         switch (shapeNum) {
             case 0:
                 deepCopy(shapeI);
+                shapeColor = I_COLOR;
                 break;
             case 1:
                 deepCopy(shapeL);
+                shapeColor = L_COLOR;
                 break;
             case 2:
                 deepCopy(shapeJ);
+                shapeColor = J_COLOR;
                 break;
             case 3:
                 deepCopy(shapeT);
+                shapeColor = T_COLOR;
                 break;
             case 4:
                 deepCopy(shapeO);
+                shapeColor = O_COLOR;
                 break;
             case 5:
                 deepCopy(shapeS);
+                shapeColor = S_COLOR;
                 break;
             case 6:
                 deepCopy(shapeZ);
+                shapeColor = Z_COLOR;
                 break;
             default:
                 System.out.println("bad shape error: " + shapeNum);

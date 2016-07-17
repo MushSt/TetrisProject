@@ -5,7 +5,6 @@ package tetrisGUI;
  */
 
 //IMPORTS
-import javafx.concurrent.*;
 import javafx.scene.canvas.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -13,7 +12,6 @@ import tetris.Coordinate;
 import tetris.GridInfo;
 import tetris.TetrisShape;
 import tetrisGUI.StartGame.ShapeType;
-import javafx.scene.*;
 
 public class GridGraphics implements GridGraphicsInterface {
     //Constants:
@@ -33,7 +31,6 @@ public class GridGraphics implements GridGraphicsInterface {
     private double pixWidth; //width in pixels
     private double pixHeight; //height in pixels
     
-    private Canvas gameGrid; 
     private GraphicsContext gc;
     
     
@@ -49,7 +46,6 @@ public class GridGraphics implements GridGraphicsInterface {
         pixWidth = userWidth * (UNIT_PIXELS) + BORDER_PIXELS;
         pixHeight = userHeight * (UNIT_PIXELS) + BORDER_PIXELS;
         
-        this.gameGrid = gameGrid;
         this.gc = gameGrid.getGraphicsContext2D();
     }
     

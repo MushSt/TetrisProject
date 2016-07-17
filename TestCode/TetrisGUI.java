@@ -1,29 +1,24 @@
-package tetrisGUI;
-
-import java.util.Scanner;
+package TestCode;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
+
 import javafx.event.ActionEvent;
-import javafx.event.Event;
+
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
+
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
+
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.ToolBar;
+
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
+
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -43,7 +38,6 @@ public class TetrisGUI extends Application {
     private final int TITLE_FONT = 18;
     private final int BUTTON_WIDTH = 150;
     private final int PADDING_TOP = 30;
-    private final int PADDING_SIDE = 50;
     private final int SPACING = 20;
     private final int STUCK_SPACING = 5;
     private final int MENU_HEIGHT = 300;
@@ -171,7 +165,7 @@ public class TetrisGUI extends Application {
     }
     
     private void gameSetup(Scene game) {
-        Canvas board = new Canvas();
+        //Canvas board = new Canvas();
         
     }
 }

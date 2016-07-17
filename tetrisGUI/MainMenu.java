@@ -21,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 public class MainMenu extends Application {
     
@@ -34,6 +35,7 @@ public class MainMenu extends Application {
     //Private Constants
     private static final int VBOX_SPACE = 25;
     private static final int HORIZ_BORDER = 30;
+    private static final int HBOX_SPACE = 100;
 
     
         //game stats constants
@@ -93,7 +95,7 @@ public class MainMenu extends Application {
         
         windowLayout.setPrefSize(windowWidth, canvasHeight);
 
-        Scene scene = new Scene(windowLayout);
+        Scene gameScene = new Scene(windowLayout);
         
         //HBox for top and bottom borders
         HBox topBorder = new HBox();
@@ -207,23 +209,31 @@ public class MainMenu extends Application {
         
         //buttons:
         Button startButton = new Button("Start Game");
+        Button optionsButton = new Button("Options");
         Button pauseButton = new Button("Pause Game");
         Button quitGame = new Button("Quit");
         startButton.setAlignment(Pos.CENTER);
+        optionsButton.setAlignment(Pos.CENTER);
         pauseButton.setAlignment(Pos.CENTER);
         quitGame.setAlignment(Pos.CENTER);
         
         leftHold.getChildren().add(startButton);
+        leftHold.getChildren().add(optionsButton);
         leftHold.getChildren().add(pauseButton);
         leftHold.getChildren().add(quitGame);
         
         //Give gameGrid the focus immediately
         startButton.addEventFilter(ActionEvent.ANY, (e) -> gameGrid.requestFocus());
+        optionsButton.addEventFilter(ActionEvent.ANY, (e) -> gameGrid.requestFocus());
         pauseButton.addEventFilter(ActionEvent.ANY, (e) -> gameGrid.requestFocus());
         quitGame.addEventFilter(ActionEvent.ANY, (e) -> gameGrid.requestFocus());
         startButton.setFocusTraversable(false);
+        optionsButton.setFocusTraversable(false);
         pauseButton.setFocusTraversable(false);
         quitGame.setFocusTraversable(false);
+        
+        //create the option screen
+        Scene options = handleOptionsScreen(primaryStage, gameScene);
         
         game = new StartGame(gameGrid);
         game.drawGrid();
@@ -268,6 +278,19 @@ public class MainMenu extends Application {
             }
         });
         
+        optionsButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                timer.pause();
+                if(game.isInPlay()) {
+                    pauseButton.setText("Unpause Game");
+                }
+                
+                primaryStage.setScene(options);
+            }
+        });
+        
+        
         quitGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
             //start game button pressed
             @Override
@@ -285,21 +308,88 @@ public class MainMenu extends Application {
             public void handle(KeyEvent event) {
                 // TODO Auto-generated method stub
                 KeyCode key = event.getCode();
-                game.newCommand(key);
+                
+                //handle the pause button
+                if(key.equals(KeyCode.ESCAPE)) {
+                    if(!game.isInPlay()) {
+                        return;
+                    }
+                    
+                    if(timer.isPaused()) {
+                        timer.unpause();
+                        pauseButton.setText("Pause Game");
+                    }
+                    else {
+                        timer.pause();
+                        pauseButton.setText("Unpause Game");
+                    }
+                }
+                else {
+                    game.newCommand(key);
+                }
+                
             }
             
         });
         
-        
         //execute
-        primaryStage.setScene(scene);
+        primaryStage.setScene(gameScene);
         primaryStage.show();
     }
 
-    private Scene handleOptionsScreen() {
+    private Scene handleOptionsScreen(Stage primaryStage, Scene windowLayout) {
+        VBox root = new VBox(HORIZ_BORDER);
+        HBox topBuffer = new HBox();
+        HBox botBuffer = new HBox();
+        root.getChildren().add(topBuffer);
         
+        topBuffer.setMinHeight(HORIZ_BORDER);
         
-        return null;
+        Label controlsLabel = new Label("Controls:");
+        controlsLabel.setFont(new Font("Arial", 20));
+        
+        root.setAlignment(Pos.TOP_CENTER);
+        
+        root.getChildren().add(controlsLabel);
+        
+        HBox cols = new HBox(HBOX_SPACE);
+        VBox leftBuffer = new VBox();
+        cols.getChildren().add(leftBuffer);
+        
+        VBox controlsBox = new VBox(DISPLAY_HEIGHT);
+        HBox topBuffer2 = new HBox();
+        
+        cols.getChildren().add(controlsBox);
+        
+        controlsBox.getChildren().add(topBuffer2);
+        
+        controlsBox.getChildren().add(new Label("left arrow: move left"));
+        controlsBox.getChildren().add(new Label("right arrow: move right"));
+        controlsBox.getChildren().add(new Label("down arrow: move down"));
+        controlsBox.getChildren().add(new Label("up arrow: rotate clockwise"));
+        controlsBox.getChildren().add(new Label("z key: rotate counterClockwise"));
+        controlsBox.getChildren().add(new Label("x key: rotate clockwise"));
+        controlsBox.getChildren().add(new Label("shift: swap piece"));
+        controlsBox.getChildren().add(new Label("esc: pause game"));
+        
+        Button backButton = new Button("back to game");
+        
+        root.getChildren().add(cols);
+        root.getChildren().add(botBuffer);
+        root.getChildren().add(backButton);
+        controlsLabel.setAlignment(Pos.TOP_CENTER);
+        
+        Scene options = new Scene(root);
+        
+        backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            //start game button pressed
+            @Override
+            public void handle(MouseEvent event) {
+                primaryStage.setScene(windowLayout);
+            }
+        });
+        
+        return options;
     }
     
     private synchronized static void handleGameOver(StartGame game, DropTimer timer) {

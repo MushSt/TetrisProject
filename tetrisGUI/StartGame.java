@@ -42,6 +42,7 @@ public class StartGame implements StartGameInterface{
         
         width = gridState.getWidth();
         hasSwap = false;
+        gameOver = true;
     }
     
     
