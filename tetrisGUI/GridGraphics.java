@@ -175,7 +175,7 @@ public class GridGraphics implements GridGraphicsInterface {
         double width = canvas.getWidth();
         Image gameOverMsg;
         try {
-            gameOverMsg = new Image("./images/gameover.png");
+            gameOverMsg = new Image("resources/gameover.png");
             
             double picWidth = gameOverMsg.getWidth();
             double picHeight = gameOverMsg.getHeight();
