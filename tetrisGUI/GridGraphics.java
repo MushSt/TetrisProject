@@ -6,6 +6,7 @@ package tetrisGUI;
 
 //IMPORTS
 import javafx.scene.canvas.*;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import tetris.Coordinate;
@@ -19,11 +20,10 @@ public class GridGraphics implements GridGraphicsInterface {
     public static final double BORDER_PIXELS = 1; //pixels for grid lines
     public static final double BLOCK_PIXELS = UNIT_PIXELS - BORDER_PIXELS; //pixels in a block
     
-    public static final Paint FALLING_COLOR = Color.GOLD;
+    public static final Paint MESSAGE_COLOR = Color.GOLD;
     public static final Paint GHOST_COLOR = Color.GRAY;
     public static final Paint BACKGROUND_COLOR = Color.BLACK;
     public static final Paint GRIDLINE_COLOR = Color.BLACK;
-    public static final Paint SETPIECE_COLOR = Color.ORANGE;
 
     //Member Variables:
     private int width; //width in units
@@ -165,5 +165,32 @@ public class GridGraphics implements GridGraphicsInterface {
         }
         
         return this.gc.getCanvas();
+    }
+    
+    public void drawGameOver() {
+        gc.setFill(MESSAGE_COLOR);
+        
+        Canvas canvas = gc.getCanvas();
+        double height = canvas.getHeight();
+        double width = canvas.getWidth();
+        Image gameOverMsg;
+        try {
+            gameOverMsg = new Image("./images/gameover.png");
+            
+            double picWidth = gameOverMsg.getWidth();
+            double picHeight = gameOverMsg.getHeight();
+            
+            double topLeftRow = height/2 - picHeight/2;
+            double topLeftCol = width/2 - picWidth/2;
+            
+            System.out.println("Attempting to draw image");
+        
+            gc.drawImage(gameOverMsg, topLeftCol, topLeftRow);
+        }
+        catch(Exception e) {
+            System.out.println("DEBUG: Error in finding image");
+        }
+        
+        
     }
 }

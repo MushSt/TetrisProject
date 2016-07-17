@@ -215,6 +215,7 @@ public class StartGame implements StartGameInterface{
     //flag for game over, and stops the timer
     public void setGameOver() {
         gameOver = true;
+        draw.drawGameOver();
         MainMenu.pauseTimer();
     }
     
