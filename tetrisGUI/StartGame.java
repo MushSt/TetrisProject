@@ -33,6 +33,7 @@ public class StartGame implements StartGameInterface{
     private int width;
     
     private boolean hasSwap;
+    private boolean usedSwap;
     
     //constructor
     public StartGame(Canvas gameGrid) {
@@ -42,6 +43,7 @@ public class StartGame implements StartGameInterface{
         
         width = gridState.getWidth();
         hasSwap = false;
+        usedSwap = false;
         gameOver = true;
     }
     
@@ -80,7 +82,13 @@ public class StartGame implements StartGameInterface{
                 break;
             case SHIFT:
                 //handle swapping
-                handleSwapShape();
+                if(usedSwap) {
+                    //can only swap once per shape
+                    return;
+                }
+                else {
+                    handleSwapShape();
+                }
                 return;
             default:
                 return;
@@ -119,7 +127,7 @@ public class StartGame implements StartGameInterface{
             drawShape(currShape);
         }
         hasSwap = true;
-        
+        usedSwap = true;
     }
     
     //initial setup for when run() is called. 
@@ -184,6 +192,9 @@ public class StartGame implements StartGameInterface{
         else {
             currShape = nextShape;
         }
+        //reset swappable
+        usedSwap = false;
+        
         currShape.starting(width);
         
         nextShape = new TetrisShape();
@@ -198,6 +209,7 @@ public class StartGame implements StartGameInterface{
     //initialize for a new game
     public void newGame() {
         init(true);
+        hasSwap = false;
     }
 
     //flag for game over, and stops the timer

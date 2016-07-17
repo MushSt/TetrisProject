@@ -255,6 +255,9 @@ public class MainMenu extends Application {
                 game.newGame();
                 currScoreText.updateText("" +currentScore);
                 pauseButton.setText("Pause Game");
+                
+                holdBox.draw();
+                
                 timer.unpause();
             }
        
