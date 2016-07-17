@@ -91,6 +91,10 @@ public class StartGame implements StartGameInterface{
             currShape = tempShape;
             drawShape(currShape);
         }
+        else{
+            System.out.println("failed to move in that direction");
+        }
+        
     }
     
     private void handleSwapShape() {
@@ -139,19 +143,24 @@ public class StartGame implements StartGameInterface{
     public void dropTick() {
         //check if can drop shape by 1, if can't set shape and get a new one
         //System.out.println("DEBUG: ticked");
+        System.out.println("Inside dropTick");
         if(gridState.checkShape(currShape.down())) {
+            System.out.println("Inside dropTick1");
             clearShape(currShape);
             currShape = currShape.down();
             drawShape(currShape);
         }
         else{
+            System.out.println("Inside dropTick2start");
             handleDroppedShape();
+            System.out.println("Inside dropTick2end");
         }
     }
     
     //after a shape has been dropped, handles the details
     private void handleDroppedShape() {
         int lines = gridState.dropShape(currShape);
+        System.out.println(lines);
 
         MainMenu.updateLinesCleared(lines);
         MainMenu.updateScoreDrop();

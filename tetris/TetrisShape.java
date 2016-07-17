@@ -47,8 +47,9 @@ public class TetrisShape implements TetrisShapeInterface {
     }
 
     // constructor to make a new shape object based on previous one
-    public TetrisShape(Coordinate[] shape) {
+    public TetrisShape(Coordinate[] shape, Paint color) {
         myShape = new Coordinate[SHAPE_SIZE];
+        shapeColor = color;
         deepCopy(shape);
     }
 
@@ -96,6 +97,7 @@ public class TetrisShape implements TetrisShapeInterface {
                 System.out.println("bad shape error: " + shapeNum);
                 break;
         }
+        
     }
 
     /**--------------------------------------------------------------------------
@@ -122,7 +124,7 @@ public class TetrisShape implements TetrisShapeInterface {
             newShape[i] = new Coordinate(newRow, newCol);
         }
 
-        return new TetrisShape(newShape);
+        return new TetrisShape(newShape, shapeColor);
     }
 
     /**--------------------------------------------------------------------------
@@ -149,7 +151,7 @@ public class TetrisShape implements TetrisShapeInterface {
             newShape[i] = new Coordinate(newRow, newCol);
         }
 
-        return new TetrisShape(newShape);
+        return new TetrisShape(newShape, shapeColor);
     }
 
     /**--------------------------------------------------------------------------
@@ -165,7 +167,7 @@ public class TetrisShape implements TetrisShapeInterface {
             newShape[i] = new Coordinate(myShape[i].getRow() + 1, myShape[i].getCol());
         }
 
-        return new TetrisShape(newShape);
+        return new TetrisShape(newShape, shapeColor);
     }
 
     /**--------------------------------------------------------------------------
@@ -181,7 +183,7 @@ public class TetrisShape implements TetrisShapeInterface {
             newShape[i] = new Coordinate(myShape[i].getRow(), myShape[i].getCol() - 1);
         }
 
-        return new TetrisShape(newShape);
+        return new TetrisShape(newShape, shapeColor);
     }
 
     /**--------------------------------------------------------------------------
@@ -197,7 +199,7 @@ public class TetrisShape implements TetrisShapeInterface {
             newShape[i] = new Coordinate(myShape[i].getRow(), myShape[i].getCol() + 1);
         }
 
-        return new TetrisShape(newShape);
+        return new TetrisShape(newShape, shapeColor);
     }
 
     /**--------------------------------------------------------------------------
@@ -214,7 +216,8 @@ public class TetrisShape implements TetrisShapeInterface {
         int rOffset = getHeightOffset() + PRINT_OFFSET;
 
         for (int i = 0; i < myShape.length; ++i) {
-            myShape[i] = new Coordinate(myShape[i].getRow() + rOffset, myShape[i].getCol() + cOffset);
+            myShape[i] = new Coordinate(myShape[i].getRow() + rOffset, 
+                    myShape[i].getCol() + cOffset);
         }
         //printCoords();
     }
@@ -302,6 +305,16 @@ public class TetrisShape implements TetrisShapeInterface {
         }
     }
     
+    //sets the color
+    public void setColor(Paint color) {
+        shapeColor = color;
+        
+        //error check
+        if(color == null) {
+            System.out.println("some failure");
+        }
+    }
+    
     /**--------------------------------------------------------------------------
      * makes a deep copy of the given coordinates into myShape
      *-------------------------------------------------------------------------*/
@@ -323,4 +336,6 @@ public class TetrisShape implements TetrisShapeInterface {
             myShape[i].setRow(myShape[i].getRow() - rOffset);
         }
     }
+    
+    
 }

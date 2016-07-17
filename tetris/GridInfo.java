@@ -4,20 +4,19 @@ package tetris;
  * also updates the grid as things happen
  */
 
+import javafx.scene.paint.Paint;
+import tetrisGUI.GridGraphics;
 import tetrisGUI.MainMenu;
 
 public class GridInfo implements GridInterface {
-    public final char SET = '0';
-    public final char EMPTY = '.';
-    public final char FALLING = '*';
-    public final char GHOST = 'x';
+    public final Paint EMPTY = GridGraphics.BACKGROUND_COLOR;
     
     public static final int TOP_BITS = 2;
 
     // default, makes default sized grid
     private int width;
     private int height;
-    private char[][] grid;
+    private Paint[][] grid;
 
     // constructors
     public GridInfo() {
@@ -27,7 +26,7 @@ public class GridInfo implements GridInterface {
     public GridInfo(int w, int h) {
         height = h + TOP_BITS;
         width = w;
-        grid = new char[height][width];
+        grid = new Paint[height][width];
         resetGrid();
     }
     
@@ -61,9 +60,9 @@ public class GridInfo implements GridInterface {
             if (col < 0 || col >= width) {
                 return false;
             }
-
+            
             // will use SET as taken blocks
-            if (grid[row][col] == SET) {
+            if (grid[row][col] != EMPTY) {
                 return false;
             }
         }
@@ -108,7 +107,7 @@ public class GridInfo implements GridInterface {
             int row = s[i].getRow();
             int col = s[i].getCol();
 
-            grid[row][col] = SET;
+            grid[row][col] = shape.getColor();
         }
         return checkLines(shape);
     }
@@ -146,7 +145,7 @@ public class GridInfo implements GridInterface {
     private boolean checkLine(int row) {
 
         for (int i = 0; i < width; ++i) {
-            if (grid[row][i] != SET) {
+            if (grid[row][i] == EMPTY) {
                 return false;
             }
         }
@@ -183,9 +182,9 @@ public class GridInfo implements GridInterface {
     /**-----------------------------------------------------------------------
      * gets the current grid
      * 
-     * @return the current grid as a char array
+     * @return the current grid as a Paint array
      *-----------------------------------------------------------------------*/
-    public char[][] getGrid() {
+    public Paint[][] getGrid() {
         return grid;
     }
 
@@ -201,6 +200,7 @@ public class GridInfo implements GridInterface {
 
         // loop moving down until we can set the shape
         while (!canSetShape(shape)) {
+            //System.out.println("LOOPING");
             shape = shape.down();
         }
         // when we reach a settable location, set the shape and return
@@ -209,47 +209,6 @@ public class GridInfo implements GridInterface {
         return setShape(shape);
     }
 
-    /**
-     * Test method, not for use in final product
-     * @param x
-     *          falling shape
-     */
-    public void printGrid(TetrisShape x) {
-        System.out.println("Printing Grid...");
-        Coordinate[] shape = x.getCoordinates();
-        
-        TetrisShape ghost = getGhost(x);
-        Coordinate[] ghostShape = ghost.getCoordinates();
-        
-        boolean falling = false;
-
-        for (int row = TOP_BITS; row < height; ++row) {
-            for (int col = 0; col < width; ++col) {
-                Coordinate checker = new Coordinate(row, col);
-
-                // if falling block piece here, print * instead
-                for (int i = 0; i < shape.length; ++i) {
-                    if (checker.equals(shape[i])) {
-                        System.out.print(FALLING);
-                        falling = true;
-                    }
-                    else {
-                        //prints ghostShape if not equal to fallingShape
-                        if(checker.equals(ghostShape[i])) {
-                            System.out.print(GHOST);
-                            falling = true;
-                        }
-                    }
-                }
-                if (!falling) {
-                    System.out.print(grid[row][col]);
-                }
-                falling = false;
-            }
-            // newline at end of the row
-            System.out.println();
-        }
-    }
     
     /**------------------------------------------------------------------------
      * returns the coordinates of the shape at its lowest possible position 

@@ -1,5 +1,7 @@
 package tetris;
 
+import javafx.scene.paint.Paint;
+
 public interface GridInterface {
 
     /**--------------------------------------------------------------------------
@@ -37,9 +39,9 @@ public interface GridInterface {
     /**-----------------------------------------------------------------------
      * gets the current grid
      * 
-     * @return the current grid as a char array
+     * @return the current grid as a Paint array
      *-----------------------------------------------------------------------*/
-    char[][] getGrid();
+    Paint[][] getGrid();
 
     /**------------------------------------------------------------------------
      * drops the current shape to the lowest point it can go note: assumes

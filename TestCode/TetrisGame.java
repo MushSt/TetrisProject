@@ -77,7 +77,7 @@ public class TetrisGame {
                 // check if the shape can be placed there, and gameOver
                 // condition
                 if (!board.checkShape(currShape)) {
-                    board.printGrid(currShape);
+                    //board.printGrid(currShape);
                     gameOver();
                     gameOver = true;
                     break;
@@ -89,7 +89,7 @@ public class TetrisGame {
                     System.out.print("swap Shape: ");
                     swapShape.printShape();
                 }
-                board.printGrid(currShape);
+                //board.printGrid(currShape);
 
                 // gets the user input
                 String command = scan.nextLine();

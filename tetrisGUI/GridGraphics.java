@@ -85,7 +85,7 @@ public class GridGraphics implements GridGraphicsInterface {
     public synchronized Canvas drawGrid(GridInfo gridState) {
         constructGridLines();
         
-        char[][] grid = gridState.getGrid();
+        Paint[][] grid = gridState.getGrid();
         int buffer = GridInfo.TOP_BITS;
         //for loop through the grid
         for(int row = buffer; row < height+buffer; ++row) {
@@ -93,19 +93,9 @@ public class GridGraphics implements GridGraphicsInterface {
                 //case 1: spot is empty
                 double colPix = BORDER_PIXELS + (UNIT_PIXELS * col);
                 double rowPix = BORDER_PIXELS + (UNIT_PIXELS * (row-GridInfo.TOP_BITS));
-                if(grid[row][col] == gridState.EMPTY) {
-                    //set background paint color
-                    gc.setFill(BACKGROUND_COLOR);
-
-                    gc.fillRect(colPix, rowPix, BLOCK_PIXELS, BLOCK_PIXELS);
-                }
-                //case 2: spot is filled
-                else {
-                    //set block paint color
-                    gc.setFill(SETPIECE_COLOR);
-                    
-                    gc.fillRect(colPix, rowPix, BLOCK_PIXELS, BLOCK_PIXELS);
-                }
+                
+                gc.setFill(grid[row][col]);
+                gc.fillRect(colPix, rowPix, BLOCK_PIXELS, BLOCK_PIXELS);
             }
         }
         
@@ -125,7 +115,8 @@ public class GridGraphics implements GridGraphicsInterface {
     public synchronized Canvas fillCells(TetrisShape shape, ShapeType type) {
         //resolve color for type
         if(type == StartGame.ShapeType.FALLING) {
-            gc.setFill(FALLING_COLOR);
+            gc.setFill(shape.getColor());
+            
         }
         else {
             gc.setFill(GHOST_COLOR);

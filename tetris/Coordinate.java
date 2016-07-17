@@ -9,64 +9,37 @@ public class Coordinate implements CoordinateInterface {
 
     private int row;
     private int col;
-
-    // no argument constructor sets a coord of 0,0
-    public Coordinate() {
-        this(0, 0);
+    
+    public Coordinate(int row, int col) {
+        this.row = row;
+        this.col = col;
+    }
+    
+    public void setRow(int row) {
+        this.row = row;
+    }
+    
+    public void setCol(int col) {
+        this.col = col;
     }
 
-    public Coordinate(int r, int c) {
-        row = r;
-        col = c;
-    }
-
-    // public mutators
-    /* (non-Javadoc)
-     * @see tetris.CoordinateInterface#setRow(int)
-     */
-    @Override
-    public void setRow(int x) {
-        row = x;
-    }
-
-    /* (non-Javadoc)
-     * @see tetris.CoordinateInterface#setCol(int)
-     */
-    @Override
-    public void setCol(int y) {
-        col = y;
-    }
-
-    // public accessors
-    /* (non-Javadoc)
-     * @see tetris.CoordinateInterface#getRow()
-     */
-    @Override
-    public int getRow() {
-        return row;
-    }
-
-    /* (non-Javadoc)
-     * @see tetris.CoordinateInterface#getCol()
-     */
-    @Override
-    public int getCol() {
-        return col;
-    }
-
-    /* (non-Javadoc)
-     * @see tetris.CoordinateInterface#equals(tetris.CoordinateInterface)
-     */
-    @Override
-    public boolean equals(Coordinate x) {
-        int xrow = x.getRow();
-        int xcol = x.getCol();
-
-        if (xrow == row && xcol == col) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+   
+   public int getRow() {
+       return row;
+   }
+   
+   public int getCol() {
+       return col;
+   }
+   
+   public boolean equals(Coordinate other) {
+       int otherRow = other.getRow();
+       int otherCol = other.getCol();
+       
+       if(row != otherRow || col != otherCol) {
+           return false;
+       }
+       return true;
+   }
 
 }

@@ -21,7 +21,6 @@ public class ShapeDraw {
     
     private final Paint BACKGROUND_COLOR = Color.DARKSLATEGRAY;
     private final Paint GRIDLINE_COLOR = Color.BLACK;
-    private final Paint BLOCK_COLOR = Color.GOLD;
     private final Paint BORDER_COLOR = Color.BLACK;
     
     private double totalHeightPx;
@@ -46,7 +45,7 @@ public class ShapeDraw {
         TetrisShape centeredShape = getCentered(shape);
         Coordinate[] shapeType = centeredShape.getCoordinates();
         emptyGrid();
-        gc.setFill(BLOCK_COLOR);
+        gc.setFill(shape.getColor());
         
         for(int i = 0; i < shapeType.length; ++i) {
             int coordRow = shapeType[i].getRow();
@@ -115,7 +114,7 @@ public class ShapeDraw {
         }
         
         
-        return new TetrisShape(newCoords);
+        return new TetrisShape(newCoords, shape.getColor());
     }
     
     private TetrisShape getOrigin(TetrisShape shape) {
@@ -133,8 +132,8 @@ public class ShapeDraw {
             
             newCoords[i] = new Coordinate(updateRow, updateCol);
         }
-        
-        return new TetrisShape(newCoords);
+        //keep the color
+        return new TetrisShape(newCoords, shape.getColor());
     }
     
 }
