@@ -31,12 +31,12 @@ public class TetrisShape implements TetrisShapeInterface {
     final private int BOUNDS = 2;
     
     final private Paint I_COLOR = Color.DARKTURQUOISE;
-    final private Paint L_COLOR = Color.BURLYWOOD;
-    final private Paint J_COLOR = Color.CHARTREUSE;
-    final private Paint T_COLOR = Color.CORNFLOWERBLUE;
+    final private Paint L_COLOR = Color.RED;
+    final private Paint J_COLOR = Color.DARKMAGENTA;
+    final private Paint T_COLOR = Color.YELLOWGREEN;
     final private Paint O_COLOR = Color.ORANGE;
-    final private Paint S_COLOR = Color.YELLOWGREEN;
-    final private Paint Z_COLOR = Color.PALEVIOLETRED;
+    final private Paint S_COLOR = Color.YELLOW;
+    final private Paint Z_COLOR = Color.VIOLET;
 
     private Coordinate[] myShape;
     private Paint shapeColor;
