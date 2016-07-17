@@ -27,10 +27,12 @@ public class StartGame implements StartGameInterface{
     private static GridInfo gridState;
     
     private TetrisShape currShape;
-    private TetrisShape SwapShape;
+    private TetrisShape swapShape;
     private TetrisShape nextShape;
     
     private int width;
+    
+    private boolean hasSwap;
     
     //constructor
     public StartGame(Canvas gameGrid) {
@@ -39,6 +41,7 @@ public class StartGame implements StartGameInterface{
         gridState = new GridInfo();
         
         width = gridState.getWidth();
+        hasSwap = false;
     }
     
     
@@ -50,10 +53,68 @@ public class StartGame implements StartGameInterface{
             System.out.println("DEBUG: game over, ignore key");
             return;
         }
+        TetrisShape tempShape = currShape;
         
-        if(key.isWhitespaceKey()) {
-            handleDroppedShape();
+        switch(key) {
+            case SPACE:
+                handleDroppedShape();
+                return;
+            case LEFT:
+                tempShape = currShape.left();
+                break;
+            case RIGHT:
+                tempShape = currShape.right();
+                break;
+            case DOWN:
+                tempShape = currShape.down();
+                break;
+            case UP:
+                tempShape = tempShape.rotateClock();
+                break;
+            case X:
+                tempShape = tempShape.rotateClock();
+                break;
+            case Z:
+                tempShape = tempShape.rotateCounter();
+                break;
+            case SHIFT:
+                //handle swapping
+                handleSwapShape();
+                return;
+            default:
+                return;
         }
+
+        if(gridState.checkShape(tempShape)) {
+            clearShape(currShape);
+            currShape = tempShape;
+            drawShape(currShape);
+        }
+    }
+    
+    private void handleSwapShape() {
+        if(!hasSwap) {
+            clearShape(currShape);
+            
+            swapShape = currShape;
+            newShape(false);
+            
+            MainMenu.updateSwap(swapShape);
+        }
+        else {
+            TetrisShape tempShape = swapShape;
+            clearShape(currShape);
+            
+            swapShape = currShape;
+            currShape = tempShape;
+            currShape.starting(width);
+            
+            MainMenu.updateSwap(swapShape);
+            
+            drawShape(currShape);
+        }
+        hasSwap = true;
+        
     }
     
     //initial setup for when run() is called. 
@@ -89,11 +150,12 @@ public class StartGame implements StartGameInterface{
     
     //after a shape has been dropped, handles the details
     private void handleDroppedShape() {
-        draw.drawGrid(gridState);
-        
         int lines = gridState.dropShape(currShape);
+
         MainMenu.updateLinesCleared(lines);
         MainMenu.updateScoreDrop();
+        
+        draw.drawGrid(gridState);
         
         //currShape = nextShape, update mainmenu, draw shape
         newShape(false);

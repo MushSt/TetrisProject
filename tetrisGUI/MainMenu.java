@@ -46,7 +46,7 @@ public class MainMenu extends Application {
     final private static int TWO = 2;
     final private static int THREE = 3;
     final private static int FOUR = 4;
-    final private static int LEVELUP = 5;
+    final private static int LEVELUP = 3;
     final private static String ZERO = "0";
     //game stat variables
     private static int gameLevel = 0;
@@ -217,11 +217,13 @@ public class MainMenu extends Application {
         leftHold.getChildren().add(pauseButton);
         leftHold.getChildren().add(quitGame);
         
-        //don't allow the buttons to be accessed via keyboard
-        
-        startButton.addEventFilter(KeyEvent.ANY, (e) -> gameGrid.requestFocus());
-        pauseButton.addEventFilter(KeyEvent.ANY, (e) -> gameGrid.requestFocus());
-        quitGame.addEventFilter(KeyEvent.ANY, (e) -> gameGrid.requestFocus());
+        //Give gameGrid the focus immediately
+        startButton.addEventFilter(ActionEvent.ANY, (e) -> gameGrid.requestFocus());
+        pauseButton.addEventFilter(ActionEvent.ANY, (e) -> gameGrid.requestFocus());
+        quitGame.addEventFilter(ActionEvent.ANY, (e) -> gameGrid.requestFocus());
+        startButton.setFocusTraversable(false);
+        pauseButton.setFocusTraversable(false);
+        quitGame.setFocusTraversable(false);
         
         game = new StartGame(gameGrid);
         game.drawGrid();
@@ -232,23 +234,25 @@ public class MainMenu extends Application {
         
         //start timer
         timeThread.start();
-
-        startButton.setOnAction(new EventHandler<ActionEvent>() {
+        
+        startButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             //start game button pressed
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(MouseEvent event) {
                 //save the stats and restart the game
                 handleGameOver(game, timer);
                 
                 game.newGame();
+                currScoreText.updateText("" +currentScore);
+                pauseButton.setText("Pause Game");
                 timer.unpause();
             }
        
         });
         
-        pauseButton.setOnAction(new EventHandler<ActionEvent>() {
+        pauseButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(MouseEvent event) {
                 if(!game.isInPlay()) {
                     return;
                 }
@@ -264,10 +268,10 @@ public class MainMenu extends Application {
             }
         });
         
-        quitGame.setOnAction(new EventHandler<ActionEvent>() {
+        quitGame.setOnMouseClicked(new EventHandler<MouseEvent>() {
             //start game button pressed
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(MouseEvent event) {
                 game.setGameOver();
                 timer.stop();
                 Platform.exit();
@@ -292,6 +296,11 @@ public class MainMenu extends Application {
         primaryStage.show();
     }
 
+    private Scene handleOptionsScreen() {
+        
+        
+        return null;
+    }
     
     private synchronized static void handleGameOver(StartGame game, DropTimer timer) {
         game.setGameOver();
@@ -309,6 +318,7 @@ public class MainMenu extends Application {
     
     private synchronized static void setGameLevel() {
         gameLevel = linesCleared / LEVELUP;
+        timer.updateLevel(gameLevel);
         gameLevelText.updateText(""+gameLevel);
     }
     
@@ -328,15 +338,12 @@ public class MainMenu extends Application {
 
             highScoreText.updateText("" +highScore);
         }
-        System.out.println("Game Over, you reached level " +gameLevel);
-        System.out.println("Score: " +currentScore);
-        System.out.println("High Score: " +highScore);
-        System.out.println("Lines Cleared: " +linesCleared);
         
         //reset stats
         currentScore = 0;
         linesCleared = 0;
         gameLevel = 0;
+        
         setGameLevel(); //return to level 0
     }
     

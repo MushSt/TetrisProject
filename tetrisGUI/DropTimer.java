@@ -6,7 +6,7 @@ package tetrisGUI;
  * returns after the set delay
  */
 public class DropTimer implements Runnable {
-    public static final int DEFAULT_DELAY = 500;
+    public static final int DEFAULT_DELAY = 1000;
     public static final int MIN_DELAY = 100;
     public static final int DELAY_OFFSET = 36;
     

@@ -99,6 +99,7 @@ public class ShapeDraw {
     }
     
     private TetrisShape getCentered(TetrisShape shape) {
+        shape = getOrigin(shape);
         Coordinate[] shapeCoords = shape.getCoordinates();
         Coordinate[] newCoords = new Coordinate[shapeCoords.length];
         int rOffset = HEIGHT_DIM/2 -1;
@@ -113,6 +114,25 @@ public class ShapeDraw {
             newCoords[i] = new Coordinate(updateRow, updateCol);
         }
         
+        
+        return new TetrisShape(newCoords);
+    }
+    
+    private TetrisShape getOrigin(TetrisShape shape) {
+        Coordinate[] shapeCords = shape.getCoordinates();
+        Coordinate[] newCoords = new Coordinate[shapeCords.length];
+        int rOffset = shapeCords[0].getRow();
+        int cOffset = shapeCords[0].getCol();
+        
+        for(int i = 0; i < shapeCords.length; ++i) {
+            int r = shapeCords[i].getRow();
+            int c = shapeCords[i].getCol();
+            
+            int updateRow = r - rOffset;
+            int updateCol = c - cOffset;
+            
+            newCoords[i] = new Coordinate(updateRow, updateCol);
+        }
         
         return new TetrisShape(newCoords);
     }
