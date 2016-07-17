@@ -209,7 +209,7 @@ public class MainMenu extends Application {
         
         //buttons:
         Button startButton = new Button("Start Game");
-        Button optionsButton = new Button("Options");
+        Button optionsButton = new Button("Help");
         Button pauseButton = new Button("Pause Game");
         Button quitGame = new Button("Quit");
         startButton.setAlignment(Pos.CENTER);
