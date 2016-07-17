@@ -1,6 +1,5 @@
 package TestCode;
 
-import java.util.concurrent.TimeUnit;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -8,7 +7,6 @@ import javafx.scene.paint.Paint;
 
 public class Test implements Runnable{
     
-    private static final long DELAY = 1000;
     public static boolean x = true;
     
     public static void main(String[] args) {
